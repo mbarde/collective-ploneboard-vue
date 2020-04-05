@@ -2,16 +2,17 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6 offset-sm-3">
-          <h1>Welcome</h1>
+          <a href="#/board/forum">Zum Forum</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Welcome',
+  components: {
+  },
   data () {
     return {
     }
