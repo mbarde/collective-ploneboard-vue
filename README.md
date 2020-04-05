@@ -1,4 +1,6 @@
-# unikold-forum
+# collective-ploneboard-vue
+
+VueJS Frontend for https://github.com/collective/collective.ploneboard
 
 ## Project setup
 ```
