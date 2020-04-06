@@ -6,7 +6,8 @@
       placeholder="Enter something..."
       rows="3"
       max-rows="6"></b-form-textarea>
-    <b-btn squared class="mt-2" @click="submit()">Abschicken</b-btn>
+    <b-btn v-if="isReply == false" @click="submit()"
+            squared class="mt-2" variant="primary">Abschicken</b-btn>
   </b-form>
 </template>
 

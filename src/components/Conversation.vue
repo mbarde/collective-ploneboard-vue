@@ -16,9 +16,16 @@
             title="Antworten">
             <comment-form
               v-if="url.length > 0"
+              :ref="`form-${comment.comment_id}`"
               :conversation-url="url"
               :reply-to-id="comment.comment_id"
               v-on:comment-created="loadComments"></comment-form>
+           <template v-slot:modal-footer>
+             <b-btn squared variant="primary"
+                    style="flex: auto"
+                    @click="submitCommentForm(comment.comment_id)">Abschicken</b-btn>
+             <b-btn squared variant="danger">Abbrechen</b-btn>
+           </template>
           </b-modal>
         </div>
 
@@ -62,6 +69,10 @@ export default {
     }
   },
   methods: {
+    submitCommentForm (commentId) {
+      let form = this.$refs['form-' + commentId][0]
+      form.submit()
+    },
     loadComments (newCommentId) {
       this.comments = []
       if (newCommentId != false) this.newCommentId = newCommentId
