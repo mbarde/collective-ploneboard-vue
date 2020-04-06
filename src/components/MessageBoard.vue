@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col cols-md="6" offset-md="3">
+      <b-col>
         <h1>{{title}}</h1>
         <p v-if="description.length > 0">
           {{description}}

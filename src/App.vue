@@ -58,10 +58,6 @@ export default {
   color: #073F8B;
 }
 
-#app .card {
-  border-radius: 0;
-}
-
 #app .logo {
   width: 200px;
 }

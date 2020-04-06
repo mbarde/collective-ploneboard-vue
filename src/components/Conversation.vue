@@ -1,35 +1,37 @@
 <template>
   <b-container>
     <b-row>
-      <b-col cols-md="6" offset-md="3">
+      <b-col>
         <b-card :title="title" :sub-title="subTitle" class="main">
           <b-card-text v-html="text" class="mt-4"></b-card-text>
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
           <comment :comment="comment" :is-new="comment.comment_id == newCommentId"></comment>
-          <b-btn
-            variant="primary"
-            class="float-right mt-1 mb-3" squared size="sm"
-            v-b-modal="`modal-reply-${comment.comment_id}`">
-            Antworten</b-btn>
-          <br style="clear:both"/>
-          <b-modal
-            :id="`modal-reply-${comment.comment_id}`"
-            title="Antworten">
-            <comment-form
-              v-if="url.length > 0"
-              :ref="`form-${comment.comment_id}`"
-              :conversation-url="url"
-              :reply-to-id="comment.comment_id"
-              v-on:comment-created="loadComments"></comment-form>
-           <template v-slot:modal-footer="{ cancel }">
-             <b-btn squared variant="primary"
-                    style="flex: auto"
-                    @click="submitCommentForm(comment.comment_id)">Abschicken</b-btn>
-             <b-btn squared variant="danger"
-                    @click="cancel()">Abbrechen</b-btn>
-           </template>
-          </b-modal>
+          <template v-if="allowReplies">
+            <b-btn
+              variant="primary"
+              class="float-right mt-1 mb-3" squared size="sm"
+              v-b-modal="`modal-reply-${comment.comment_id}`">
+              Antworten</b-btn>
+            <br style="clear:both"/>
+            <b-modal
+              :id="`modal-reply-${comment.comment_id}`"
+              title="Antworten">
+              <comment-form
+                v-if="url.length > 0"
+                :ref="`form-${comment.comment_id}`"
+                :conversation-url="url"
+                :reply-to-id="comment.comment_id"
+                v-on:comment-created="loadComments"></comment-form>
+              <template v-slot:modal-footer="{ cancel }">
+                <b-btn squared variant="primary"
+                       style="flex: auto"
+                       @click="submitCommentForm(comment.comment_id)">Abschicken</b-btn>
+                <b-btn squared variant="danger"
+                       @click="cancel()">Abbrechen</b-btn>
+              </template>
+            </b-modal>
+          </template><!-- if allowReplies -->
         </div>
 
         <br/>
@@ -57,6 +59,7 @@ export default {
   },
   data () {
     return {
+      allowReplies: false,
       boardId: '',
       topicId: '',
       conversationId: '',

@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col cols-md="6" offset-md="3">
+      <b-col>
         <h1>{{title}}</h1>
         <p v-if="description.length > 0">{{description}}</p>
         <b-list-group>
@@ -12,6 +12,9 @@
               {{conversation.title}}
           </b-list-group-item>
         </b-list-group>
+
+        <br/>
+        <conversation-form v-if="url.length > 0" :topic-url="url"></conversation-form>
       </b-col>
     </b-row>
   </b-container>
@@ -20,9 +23,13 @@
 <script>
 import { readContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
+import ConversationForm from '@/components/ConversationForm'
 
 export default {
   name: 'Topic',
+  components: {
+    ConversationForm,
+  },
   data () {
     return {
       boardId: '',
