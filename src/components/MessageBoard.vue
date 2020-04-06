@@ -33,7 +33,7 @@ export default {
   methods: {
     getTopicUrl (topic) {
       const topicId = url2id(topic['@id'])
-      return `#/board/${this.id}/${topicId}`
+      return `#/${this.id}/${topicId}`
     }
   },
   mounted () {

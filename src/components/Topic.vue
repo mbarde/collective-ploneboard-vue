@@ -1,6 +1,5 @@
 <template>
   <b-container>
-    <nav-bar v-if="url.length > 0" :location="url"></nav-bar>
     <b-row>
       <b-col cols-md="6" offset-md="3">
         <h1>{{title}}</h1>
@@ -20,15 +19,11 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
 import { readContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
   name: 'Topic',
-  components: {
-    NavBar,
-  },
   data () {
     return {
       boardId: '',
@@ -42,7 +37,7 @@ export default {
   methods: {
     getConversationUrl (conversation) {
       const conversationId = url2id(conversation['@id'])
-      return `#/board/${this.boardId}/${this.topicId}/${conversationId}`
+      return `#/${this.boardId}/${this.topicId}/${conversationId}`
     }
   },
   mounted () {

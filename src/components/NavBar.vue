@@ -3,7 +3,7 @@
     <b-nav-item
       v-for="(item, index) in navItems"
       :key="index"
-      :href="`/#/board${item.path}`"
+      :href="`/#${item.path}`"
       :active="index == navItems.length - 1 ? true : false">
       {{item.title}}
     </b-nav-item>
@@ -15,7 +15,6 @@ import { BASE_URL, readContent } from '../../utils/plone-api.js'
 
 export default {
   name: 'NavBar',
-  props: ['location'],
   data () {
     return {
       navItems: [],
@@ -25,18 +24,21 @@ export default {
     absoluteToRelativePath (absolutePath) {
       return absolutePath.replace(BASE_URL, '')
     },
-  },
-  mounted () {
-    const url = this.location + '/@breadcrumbs'
-    readContent(url).then((res) => {
-      this.navItems = []
-      res.items.forEach((item) => {
-        this.navItems.push({
-          title: item.title,
-          path: this.absoluteToRelativePath(item['@id'])
+    update () {
+      const url = this.$route.path + '/@breadcrumbs'
+      readContent(url).then((res) => {
+        this.navItems = []
+        res.items.forEach((item) => {
+          this.navItems.push({
+            title: item.title,
+            path: this.absoluteToRelativePath(item['@id'])
+          })
         })
       })
-    })
+    }
+  },
+  mounted () {
+    this.update()
   },
 }
 </script>

@@ -1,6 +1,5 @@
 <template>
   <b-container>
-    <nav-bar v-if="url.length > 0" :location="url"></nav-bar>
     <b-row>
       <b-col cols-md="6" offset-md="3">
         <b-card :title="title" :sub-title="subTitle" class="main">
@@ -47,7 +46,6 @@
 <script>
 import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
-import NavBar from '@/components/NavBar'
 import moment from 'moment'
 import { readContent } from '../../utils/plone-api.js'
 
@@ -56,7 +54,6 @@ export default {
   components: {
     Comment,
     CommentForm,
-    NavBar,
   },
   data () {
     return {

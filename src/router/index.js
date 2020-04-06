@@ -21,17 +21,17 @@ export default new Router({
       component: Login
     },
     {
-      path: '/board/:boardId',
+      path: '/:boardId',
       name: 'MessageBoard',
       component: MessageBoard
     },
     {
-      path: '/board/:boardId/:topicId',
+      path: '/:boardId/:topicId',
       name: 'Topic',
       component: Topic
     },
     {
-      path: '/board/:boardId/:topicId/:conversationId',
+      path: '/:boardId/:topicId/:conversationId',
       name: 'Conversation',
       component: Conversation
     },

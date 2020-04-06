@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container">
     <img class="logo" src="./assets/logo.png" alt="Logo Universität Koblenz - Landau"/>
+    <nav-bar ref="navbar"></nav-bar>
     <div class="content">
       <router-view/>
     </div>
@@ -10,9 +11,17 @@
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
+
 export default {
   name: 'App',
   components: {
+    NavBar,
+  },
+  watch: {
+    $route() {
+      this.$refs.navbar.update()
+    }
   },
   methods: {
   },
