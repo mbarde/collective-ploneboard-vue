@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col :offset="offset">
-      <b-card class="comment mt-3">
+      <b-card :id="`comment-${id}`" class="comment mt-3">
         <template v-slot:header>
           <span class="author">{{author}} sagt:</span>
           <span class="date">{{date}}</span>
@@ -20,6 +20,7 @@ export default {
   props: ['comment'],
   data () {
     return {
+      id: '',
       author: '',
       date: '',
       text: '',
@@ -29,6 +30,7 @@ export default {
   methods: {
   },
   mounted () {
+    this.id = this.comment.comment_id
     this.author = this.comment.author_name
     this.date = moment(this.comment.modification_date).format('DD.MM.YYYY - HH:mm') + ' Uhr'
     this.text = this.comment.text.data

@@ -7,19 +7,18 @@
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
           <comment :comment="comment"></comment>
-
           <b-btn class="float-right mt-1 mb-3" squared size="sm"
-            v-b-modal="`modal-reply-${getCommentId(comment)}`">
+            v-b-modal="`modal-reply-${comment.comment_id}`">
             Antworten</b-btn>
           <br style="clear:both"/>
           <b-modal
-            :id="`modal-reply-${getCommentId(comment)}`"
+            :id="`modal-reply-${comment.comment_id}`"
             title="Antworten">
             <comment-form
               v-if="url.length > 0"
               :conversation-url="url"
-              :reply-to-id="getCommentId(comment)"
-              v-on:comment-created="loadComments()"></comment-form>
+              :reply-to-id="comment.comment_id"
+              v-on:comment-created="loadComments"></comment-form>
           </b-modal>
         </div>
 
@@ -28,7 +27,7 @@
         <comment-form
           v-if="url.length > 0"
           :conversation-url="url"
-          v-on:comment-created="loadComments()"></comment-form>
+          v-on:comment-created="loadComments"></comment-form>
       </div>
     </div>
   </div>
@@ -39,7 +38,6 @@ import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
 import { readContent } from '../../utils/plone-api.js'
-import { url2id } from '../../utils/tools.js'
 
 export default {
   name: 'Conversation',
@@ -63,16 +61,14 @@ export default {
     }
   },
   methods: {
-    getCommentId (comment) {
-      return url2id(comment['@id'])
-    },
-    loadComments (isReload=true) {
+    loadComments (newCommentId) {
       this.comments = []
-      let scrollToY = window.scrollY
       readContent(this.url + '/@comments').then((res) => {
         this.comments = res.items
-        if (isReload) {
-          this.$scrollTo('body', 500, {offset: scrollToY})
+        if (newCommentId != false) {
+          setTimeout(() => {
+            this.$scrollTo(`#comment-${newCommentId}`)
+          }, 0)
         }
       })
     }
