@@ -1,13 +1,13 @@
 <template>
-      <b-nav class="mb-3">
-        <b-nav-item
-          v-for="(item, index) in navItems"
-          :key="index"
-          :href="`/#/board${item.path}`"
-          :active="index == navItems.length - 1 ? true : false">
-          {{item.title}}
-        </b-nav-item>
-      </b-nav>
+  <b-nav class="mb-3 mt-3">
+    <b-nav-item
+      v-for="(item, index) in navItems"
+      :key="index"
+      :href="`/#/board${item.path}`"
+      :active="index == navItems.length - 1 ? true : false">
+      {{item.title}}
+    </b-nav-item>
+  </b-nav>
 </template>
 
 <script>

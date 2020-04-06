@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
+    <img class="logo" src="./assets/logo.png" alt="Logo Universität Koblenz - Landau"/>
     <div class="content">
-      <!-- <app-nav></app-nav> -->
       <router-view/>
     </div>
     <br/>
@@ -21,7 +21,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+// Import custom SASS variable overrides, or alternatively
+// define your variable overrides here instead
+@import './assets/custom-vars.scss';
+
+// Import Bootstrap and BootstrapVue source SCSS files
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,5 +44,9 @@ export default {
 
 #app .card {
   border-radius: 0;
+}
+
+#app .logo {
+  width: 200px;
 }
 </style>
