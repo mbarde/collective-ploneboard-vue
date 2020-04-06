@@ -27,6 +27,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: black;
-  margin-top: 60px;
+  margin-top: 20px;
+}
+
+#app a {
+  color: #073F8B;
+}
+
+#app .card {
+  border-radius: 0;
 }
 </style>

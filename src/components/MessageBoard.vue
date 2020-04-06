@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
+  <b-container>
+    <b-row>
+      <b-col cols-md="6" offset-md="3">
         <h1>{{title}}</h1>
         <b-list-group>
           <b-list-group-item
@@ -12,9 +12,9 @@
             </a>
           </b-list-group-item>
         </b-list-group>
-      </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

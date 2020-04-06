@@ -1,9 +1,10 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-        <b-card :title="title" :sub-title="subTitle">
-          <b-card-text v-html="text"></b-card-text>
+  <b-container>
+    <nav-bar v-if="url.length > 0" :location="url"></nav-bar>
+    <b-row>
+      <b-col cols-md="6" offset-md="3">
+        <b-card :title="title" :sub-title="subTitle" class="main">
+          <b-card-text v-html="text" class="mt-4"></b-card-text>
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
           <comment :comment="comment" :is-new="comment.comment_id == newCommentId"></comment>
@@ -36,14 +37,15 @@
           v-if="url.length > 0"
           :conversation-url="url"
           v-on:comment-created="loadComments"></comment-form>
-      </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
+import NavBar from '@/components/NavBar'
 import moment from 'moment'
 import { readContent } from '../../utils/plone-api.js'
 
@@ -52,6 +54,7 @@ export default {
   components: {
     Comment,
     CommentForm,
+    NavBar,
   },
   data () {
     return {
@@ -113,4 +116,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.card.main .card-subtitle {
+  font-size: 80%;
+  font-style: italic;
+}
 </style>

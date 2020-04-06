@@ -4,7 +4,8 @@ import { SESS_PREFIX_CACHED } from './constants'
 
 const BASE_URL = 'http://cms6.uni-koblenz.de:4050/ErstiForum'
 
-export { login,
+export { BASE_URL,
+         login,
          createContent, readContent, updateContent, deleteContent,
          workflowAction }
 
