@@ -1,23 +1,29 @@
 <template>
   <div id="app">
     <b-container>
-      <img class="logo" src="./assets/logo.png" alt="Logo Universität Koblenz - Landau"/>
+      <a href="/#/">
+        <img class="logo"
+             src="./assets/logo.png"
+             alt="Logo Universität Koblenz - Landau"/>
+      </a>
     </b-container>
     <nav-bar ref="navbar"></nav-bar>
     <div class="content">
       <router-view/>
     </div>
     <br/>
-    <!-- <app-footer></app-footer> -->
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
+import AppFooter from '@/components/AppFooter'
 import NavBar from '@/components/NavBar'
 
 export default {
   name: 'App',
   components: {
+    AppFooter,
     NavBar,
   },
   watch: {
@@ -46,12 +52,33 @@ export default {
   src: url('./assets/Raleway-Regular.ttf') format('truetype');
 }
 
+html {
+  height: 100%;
+}
+
+body > div {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* Avoid the IE 10-11 `min-height` bug. */
+}
+
+.content {
+  flex: 1 0 auto;
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+}
+
+.footer {
+  flex-shrink: 0;
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+}
+
 #app {
   font-family: Raleway, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: black;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 #app a {

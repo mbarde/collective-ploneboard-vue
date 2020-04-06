@@ -3,10 +3,12 @@ import { getToken, setToken } from './auth'
 import { SESS_PREFIX_CACHED } from './constants'
 
 const BASE_URL = 'http://cms6.uni-koblenz.de:4050/ErstiForum'
+const STATIC_PAGES_PATH = '/pages'
 
 export { BASE_URL,
          login,
          createContent, readContent, updateContent, deleteContent,
+         readStaticPage,
          workflowAction }
 
 function pathToURL (path) {
@@ -82,6 +84,11 @@ function deleteContent (path) {
   return axios.delete(pathToURL(path),
 									{ headers: {'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` } })
 				.then(response => response)
+}
+
+function readStaticPage (pageId) {
+  const url = BASE_URL + STATIC_PAGES_PATH + '/' + pageId
+  return readContent(url)
 }
 
 function workflowAction (path, action) {
