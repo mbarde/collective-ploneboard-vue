@@ -39,8 +39,13 @@ export default {
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
+@font-face {
+  font-family: 'Raleway';
+  src: url('./assets/Raleway-Regular.ttf') format('truetype');
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Raleway, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: black;
