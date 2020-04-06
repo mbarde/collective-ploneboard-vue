@@ -6,7 +6,7 @@
           <span class="author">{{author}} sagt:</span>
           <span class="date">{{date}}</span>
         </template>
-        <b-card-text>{{text}}</b-card-text>
+        <b-card-text v-html="nl2brLocal(text)"></b-card-text>
       </b-card>
     </b-col>
   </b-row>
@@ -14,6 +14,7 @@
 
 <script>
 import moment from 'moment'
+import { nl2br } from '../../utils/tools.js'
 
 export default {
   name: 'Comment',
@@ -29,6 +30,9 @@ export default {
     }
   },
   methods: {
+    nl2brLocal (str) {
+      return nl2br(str)
+    }
   },
   mounted () {
     this.id = this.comment.comment_id
