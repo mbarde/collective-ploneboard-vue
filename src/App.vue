@@ -1,6 +1,8 @@
 <template>
-  <div id="app" class="container">
-    <img class="logo" src="./assets/logo.png" alt="Logo Universität Koblenz - Landau"/>
+  <div id="app">
+    <b-container>
+      <img class="logo" src="./assets/logo.png" alt="Logo Universität Koblenz - Landau"/>
+    </b-container>
     <nav-bar ref="navbar"></nav-bar>
     <div class="content">
       <router-view/>

@@ -1,13 +1,17 @@
 <template>
-  <b-nav class="mb-3 mt-3">
-    <b-nav-item
-      v-for="(item, index) in navItems"
-      :key="index"
-      :href="`/#${item.path}`"
-      :active="index == navItems.length - 1 ? true : false">
-      {{item.title}}
-    </b-nav-item>
-  </b-nav>
+  <div class="nav-container mb-3 mt-3" fluid>
+    <b-container>
+      <b-nav>
+        <b-nav-item
+          v-for="(item, index) in navItems"
+          :key="index"
+          :href="`/#${item.path}`"
+          :active="index == navItems.length - 1 ? true : false">
+          {{item.title}}
+        </b-nav-item>
+      </b-nav>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -45,7 +49,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.nav {
+.nav-container {
   border-bottom: 4px solid #073F8B;
   border-top: 4px solid #073F8B;
 }
