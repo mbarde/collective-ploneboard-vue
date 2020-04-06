@@ -5,7 +5,7 @@ import { SESS_PREFIX_CACHED } from './constants'
 const BASE_URL = 'http://cms6.uni-koblenz.de:4050/ErstiForum'
 
 export { login,
-         getContent, updateContent, deleteContent,
+         createContent, readContent, updateContent, deleteContent,
          workflowAction }
 
 function pathToURL (path) {
@@ -29,7 +29,13 @@ function login (username, password) {
         )
 }
 
-function getContent (path, allowCaching = false) {
+function createContent(path, data) {
+  return axios.post(pathToURL(path), data,
+									{ headers: {'Accept': 'application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` } })
+				.then(response => response)
+}
+
+function readContent (path, allowCaching = false) {
   var url = pathToURL(path)
   if (allowCaching) {
     var cached = sessionStorage.getItem(`${SESS_PREFIX_CACHED}${url}`)

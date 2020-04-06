@@ -8,6 +8,10 @@
         <div v-for="comment in comments" :key="comment['@id']">
           <comment :comment="comment"></comment>
         </div>
+        <comment-form
+          v-if="url.length > 0"
+          :conversation-url="url"
+          v-on:comment-created="loadComments()"></comment-form>
       </div>
     </div>
   </div>
@@ -15,19 +19,22 @@
 
 <script>
 import Comment from '@/components/Comment'
+import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
-import { getContent } from '../../utils/plone-api.js'
+import { readContent } from '../../utils/plone-api.js'
 
 export default {
   name: 'Conversation',
   components: {
     Comment,
+    CommentForm,
   },
   data () {
     return {
       boardId: '',
       topicId: '',
       conversationId: '',
+      url: '',
       id: '',
       author: '',
       modified: '',
@@ -38,25 +45,33 @@ export default {
     }
   },
   methods: {
+    loadComments () {
+      console.log('load!')
+      this.comments = []
+      readContent(this.url + '/@comments').then((res) => {
+        this.comments = res.items
+      })
+    }
   },
   mounted () {
     this.boardId = this.$route.params.boardId
     this.topicId = this.$route.params.topicId
     this.conversationId = this.$route.params.conversationId
-    const url = `/${this.boardId}/${this.topicId}/${this.conversationId}`
-    getContent(url).then((res) => {
+    this.url = `/${this.boardId}/${this.topicId}/${this.conversationId}`
+    readContent(this.url).then((res) => {
       this.modified = res.modified
       this.title = res.title
       this.text = res.text.data
-      getContent(url + '/@history').then((res) => {
+
+      /* use @history endpoint to get name of creator */
+      readContent(this.url + '/@history').then((res) => {
         this.author = res.pop().actor.fullname
         let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
         this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
       })
     })
-    getContent(url + '/@comments').then((res) => {
-      this.comments = res.items
-    })
+
+    this.loadComments()
   },
 }
 </script>

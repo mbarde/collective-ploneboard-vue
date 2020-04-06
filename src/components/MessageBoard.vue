@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getContent } from '../../utils/plone-api.js'
+import { readContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
@@ -38,7 +38,7 @@ export default {
   },
   mounted () {
     const url = `/${this.$route.params.boardId}`
-    getContent(url).then((res) => {
+    readContent(url).then((res) => {
       this.id = res.id
       this.title = res.title
       this.topics = res.items

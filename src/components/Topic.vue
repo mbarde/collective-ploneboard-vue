@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getContent } from '../../utils/plone-api.js'
+import { readContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
@@ -43,7 +43,7 @@ export default {
     this.boardId = this.$route.params.boardId
     this.topicId = this.$route.params.topicId
     const url = `/${this.boardId}/${this.topicId}`
-    getContent(url).then((res) => {
+    readContent(url).then((res) => {
       this.title = res.title
       this.description = res.description
       this.conversations = res.items

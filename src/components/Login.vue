@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { login, getContent } from '../../utils/plone-api'
+import { login, readContent } from '../../utils/plone-api'
 import { isLoggedIn, setUsername, setUserId, setUserIsAdmin } from '../../utils/auth'
 
 export default {
@@ -51,7 +51,7 @@ export default {
           this.errMsg = 'E-Mail Adresse oder Passwort falsch!'
         }
         if (isLoggedIn()) {
-          getContent('/@users/' + this.usermail).then((res) => {
+          readContent('/@users/' + this.usermail).then((res) => {
             var fullname = `${res.prename} ${res.fullname}`.trim()
             setUserId(res.id)
             setUsername(fullname)
@@ -63,7 +63,7 @@ export default {
     },
     checkForAdminStatus () {
       // check if user is an admin
-      getContent('/sessions/').then((response) => {
+      readContent('/sessions/').then((response) => {
         if (typeof response.items === 'object') {
           setUserIsAdmin(true)
         }
