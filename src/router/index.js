@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Welcome from '@/components/Welcome'
+import Conversation from '@/components/Conversation'
 import Login from '@/components/Login'
 import MessageBoard from '@/components/MessageBoard'
 import Topic from '@/components/Topic'
+import Welcome from '@/components/Welcome'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/board/:boardId/:topicId',
       name: 'Topic',
       component: Topic
+    },
+    {
+      path: '/board/:boardId/:topicId/:conversationId',
+      name: 'Conversation',
+      component: Conversation
     },
   ]
 })

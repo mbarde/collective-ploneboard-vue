@@ -6,7 +6,7 @@
         <b-list-group>
           <b-list-group-item
             v-for="topic in topics"
-            v-bind:key="topic['@id']">
+            :key="topic['@id']">
             <a :href="getTopicUrl(topic)">
               {{topic.title}}
             </a>

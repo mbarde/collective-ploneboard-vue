@@ -7,7 +7,7 @@
         <b-list-group>
           <b-list-group-item
             v-for="conversation in conversations"
-            v-bind:key="conversation['@id']">
+            :key="conversation['@id']">
             <a :href="getConversationUrl(conversation)">
               {{conversation.title}}
             </a>
@@ -23,20 +23,20 @@ import { getContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
-  name: 'MessageBoard',
+  name: 'Topic',
   data () {
     return {
-      id: '',
+      boardId: '',
+      topicId: '',
       title: '',
       description: '',
-      board: false,
       conversations: [],
     }
   },
   methods: {
     getConversationUrl (conversation) {
       const conversationId = url2id(conversation['@id'])
-      return `#/conversation/${this.boardId}/${this.topicId}/${conversationId}`
+      return `#/board/${this.boardId}/${this.topicId}/${conversationId}`
     }
   },
   mounted () {
