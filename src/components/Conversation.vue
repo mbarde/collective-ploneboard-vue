@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <b-card :title="title" :sub-title="subTitle" class="main">
-          <b-card-text v-html="text" class="mt-4"></b-card-text>
+          <b-card-text v-html="nl2brLocal(text)" class="mt-4"></b-card-text>
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
           <comment :comment="comment" :is-new="comment.comment_id == newCommentId"></comment>
@@ -50,6 +50,7 @@ import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
 import { readContent } from '../../utils/plone-api.js'
+import { nl2br } from '../../utils/tools.js'
 
 export default {
   name: 'Conversation',
@@ -91,6 +92,9 @@ export default {
           }, 0)
         }
       })
+    },
+    nl2brLocal (str) {
+      return nl2br(str)
     }
   },
   mounted () {
@@ -116,7 +120,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card.main .card-subtitle {
   font-size: 80%;

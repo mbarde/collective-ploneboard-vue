@@ -6,13 +6,14 @@
         <p v-if="description.length > 0">
           {{description}}
         </p>
-        <b-list-group>
-          <b-list-group-item
+        <b-list-group v-if="initialized">
+          <b-list-group-item class="topic"
             v-for="topic in topics"
             :key="topic['@id']"
             :href="getTopicUrl(topic)">
               <h4>{{topic.title}}</h4>
               {{topic.description}}
+              <i>{{topic.conversation_count}} Unterhaltungen</i>
           </b-list-group-item>
         </b-list-group>
       </b-col>
@@ -28,6 +29,7 @@ export default {
   name: 'MessageBoard',
   data () {
     return {
+      initialized: false,
       id: '',
       title: '',
       description: '',
@@ -47,11 +49,29 @@ export default {
       this.title = res.title
       this.description = res.description
       this.topics = res.items
+
+      /* get conversation count of each topic */
+      let promises = []
+      this.topics.forEach((topic) => {
+        promises.push(new Promise((resolve) => {
+          readContent(topic['@id']).then((res) => {
+            topic.conversation_count = res.items_total
+            resolve()
+          })
+        }))
+      })
+      Promise.all(promises).then(() => {
+        this.initialized = true
+      })
     })
   },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.list-group-item.topic i {
+  float: right;
+  font-size: 80%;
+  font-style: italic;
+}
 </style>
