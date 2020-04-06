@@ -1,13 +1,12 @@
 <template>
-  <b-form class="mt-5">
-    <h4>Neuen Kommentar hinzufügen</h4>
+  <b-form>
     <b-form-textarea
       id="textarea"
       v-model="text"
       placeholder="Enter something..."
       rows="3"
       max-rows="6"></b-form-textarea>
-    <b-btn @click="submit()">Abschicken</b-btn>
+    <b-btn squared class="mt-2" @click="submit()">Abschicken</b-btn>
   </b-form>
 </template>
 
@@ -20,8 +19,9 @@ export default {
   data () {
     return {
       postUrl: '',
-      replyToIdData: false,
+      isReply: false,
       text: '',
+      title: '',
     }
   },
   methods: {
@@ -29,7 +29,6 @@ export default {
       let data = {'text': this.text}
       createContent(this.postUrl, data).then((res) => {
         if (res.status === 204) {
-          console.log('emitting')
           this.$emit('comment-created')
         }
       })
@@ -37,7 +36,13 @@ export default {
   },
   mounted () {
     this.postUrl = this.conversationUrl + '/@comments'
-    if (this.replyToId != null) this.replyToIdData = this.replyToId
+    if (this.replyToId != null) {
+      this.replyToIdData = this.replyToId
+      this.postUrl += `/${this.replyToIdData}`
+      this.isReply = true
+    } else {
+      this.isReply = false
+    }
   },
 }
 </script>

@@ -41,6 +41,7 @@ export default {
 <style scoped>
 .comment .card-header {
   font-size: 80%;
+  line-height: 80%;
 }
 
 .comment .date {

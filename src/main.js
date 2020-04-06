@@ -8,6 +8,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
+var VueScrollTo = require('vue-scrollto');
+Vue.use(VueScrollTo, {
+  container: 'body',
+  x: false,
+  y: true,
+})
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSignInAlt
        } from '@fortawesome/free-solid-svg-icons'
