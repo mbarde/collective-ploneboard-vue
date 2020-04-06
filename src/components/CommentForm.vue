@@ -31,6 +31,7 @@ export default {
       let data = {'text': this.text}
       createContent(this.postUrl, data).then((res) => {
         if (res.status === 204) {
+          this.text = ''
           let newCommentUrl = res.headers.location
           let newCommentId = url2id(newCommentUrl)
           this.$emit('comment-created', newCommentId)

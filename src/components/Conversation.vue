@@ -77,7 +77,7 @@ export default {
       this.comments = []
       if (newCommentId != false) this.newCommentId = newCommentId
       else this.newCommentId = ''
-      readContent(this.url + '/@comments').then((res) => {
+      readContent(this.url + '/@comments?b_size=999999').then((res) => {
         this.comments = res.items
         if (newCommentId != false) {
           setTimeout(() => {
