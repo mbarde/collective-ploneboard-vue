@@ -34,7 +34,7 @@
           </template><!-- if allowReplies -->
         </div>
 
-        <br/>
+        <hr/>
         <h4>Neuen Kommentar hinzufügen</h4>
         <comment-form
           v-if="url.length > 0"

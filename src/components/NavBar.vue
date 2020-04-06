@@ -63,6 +63,10 @@ export default {
   margin-top: 8px;
 }
 
+.nav .nav-item:first-child a {
+  padding-left: 0;
+}
+
 .nav .nav-item:last-child::after {
   content: '';
 }

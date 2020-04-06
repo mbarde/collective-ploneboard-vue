@@ -55,10 +55,11 @@ export default {
         }
         if (isLoggedIn()) {
           readContent('/@users/' + this.usermail).then((res) => {
-            var fullname = `${res.prename} ${res.fullname}`.trim()
+            var fullname = res.fullname.trim()
             setUserId(res.id)
             setUsername(fullname)
             this.$emit('logged-state-changed')
+            this.$router.push('/')
           })
         }
       })

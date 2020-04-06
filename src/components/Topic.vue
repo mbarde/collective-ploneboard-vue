@@ -13,7 +13,7 @@
           </b-list-group-item>
         </b-list-group>
 
-        <br/>
+        <hr/>
         <conversation-form v-if="url.length > 0" :topic-url="url"></conversation-form>
       </b-col>
     </b-row>

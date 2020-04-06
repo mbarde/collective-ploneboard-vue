@@ -7,7 +7,7 @@
              alt="Logo Universität Koblenz - Landau"/>
       </a>
       <b-dropdown
-        v-if="isLoggedIn"
+        v-if="isLoggedIn" class="float-right"
         :text="`Eingeloggt als ${username}`"
         variant="default">
         <b-dropdown-item @click="handleLogout">Ausloggen</b-dropdown-item>
