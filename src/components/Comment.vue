@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col :offset="offset">
-      <b-card :id="`comment-${id}`" class="comment mt-3">
+      <b-card :id="`comment-${id}`" :class="cssClasses.join(' ')">
         <template v-slot:header>
           <span class="author">{{author}} sagt:</span>
           <span class="date">{{date}}</span>
@@ -17,9 +17,10 @@ import moment from 'moment'
 
 export default {
   name: 'Comment',
-  props: ['comment'],
+  props: ['comment', 'isNew'],
   data () {
     return {
+      cssClasses: ['comment', 'mt-3'],
       id: '',
       author: '',
       date: '',
@@ -35,6 +36,9 @@ export default {
     this.date = moment(this.comment.modification_date).format('DD.MM.YYYY - HH:mm') + ' Uhr'
     this.text = this.comment.text.data
     if (this.comment.in_reply_to != null) this.offset = 1
+    if (this.isNew == true) {
+      this.cssClasses.push('new')
+    }
   },
 }
 </script>
@@ -49,5 +53,21 @@ export default {
 .comment .date {
   float: right;
   font-style: italic;
+}
+
+.comment.new {
+  animation-name: highlight-new;
+  animation-duration: 4s;
+}
+
+@keyframes highlight-new {
+  from {
+    background-color: #073F8B;
+    color: white;
+  }
+  to {
+    background-color: initial;
+    color: initial;
+  }
 }
 </style>

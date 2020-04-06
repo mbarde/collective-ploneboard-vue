@@ -6,7 +6,7 @@
           <b-card-text v-html="text"></b-card-text>
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
-          <comment :comment="comment"></comment>
+          <comment :comment="comment" :is-new="comment.comment_id == newCommentId"></comment>
           <b-btn class="float-right mt-1 mb-3" squared size="sm"
             v-b-modal="`modal-reply-${comment.comment_id}`">
             Antworten</b-btn>
@@ -58,11 +58,14 @@ export default {
       subTitle: '',
       text: '',
       comments: [],
+      newCommentId: '',
     }
   },
   methods: {
     loadComments (newCommentId) {
       this.comments = []
+      if (newCommentId != false) this.newCommentId = newCommentId
+      else this.newCommentId = ''
       readContent(this.url + '/@comments').then((res) => {
         this.comments = res.items
         if (newCommentId != false) {
