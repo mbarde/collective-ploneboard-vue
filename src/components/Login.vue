@@ -1,8 +1,9 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-          <h1>Login</h1>
+  <b-container>
+    <b-row>
+      <b-col>
+          <h3>{{title}}</h3>
+          <p v-if="html.length > 0" v-html="html"></p>
           <b-alert v-if="errMsg.length > 0" v-html="errMsg"
                    show variant="danger"></b-alert>
           <div class="form-group">
@@ -23,14 +24,14 @@
             <b-spinner small v-if="tryingLogin"></b-spinner>
             <font-awesome-icon v-else icon="sign-in-alt"/> Login
           </button>
-      </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import { login, readContent } from '../../utils/plone-api'
-import { isLoggedIn, setUsername, setUserId, setUserIsAdmin } from '../../utils/auth'
+import { login, readContent, readStaticPage } from '../../utils/plone-api'
+import { isLoggedIn, setUsername, setUserId } from '../../utils/auth'
 
 export default {
   name: 'Login',
@@ -39,7 +40,9 @@ export default {
       usermail: '',
       password: '',
       errMsg: '',
-      tryingLogin: false
+      tryingLogin: false,
+      title: '',
+      html: '',
     }
   },
   methods: {
@@ -55,19 +58,9 @@ export default {
             var fullname = `${res.prename} ${res.fullname}`.trim()
             setUserId(res.id)
             setUsername(fullname)
-
-            this.checkForAdminStatus()
+            this.$emit('logged-state-changed')
           })
         }
-      })
-    },
-    checkForAdminStatus () {
-      // check if user is an admin
-      readContent('/sessions/').then((response) => {
-        if (typeof response.items === 'object') {
-          setUserIsAdmin(true)
-        }
-        this.$router.push('/')
       })
     },
   },
@@ -75,6 +68,10 @@ export default {
     if (isLoggedIn()) {
       this.$router.push('/')
     }
+    readStaticPage('signin').then((res) => {
+      this.title = res.title
+      this.html = res.text.data
+    })
   },
 }
 </script>

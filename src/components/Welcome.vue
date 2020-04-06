@@ -4,23 +4,28 @@
       <b-col>
         <h3>{{title}}</h3>
         <p v-html="html"></p>
-        <b-btn href="#/forum" variant="primary">Zum Forum</b-btn>
+        <b-btn v-if="isLoggedIn"
+               href="#/forum"
+               variant="primary">Zum Forum</b-btn>
+        <b-btn v-else
+               href="#/login"
+               variant="primary">Anmelden</b-btn>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import { isLoggedIn } from '../../utils/auth.js'
 import { readStaticPage } from '../../utils/plone-api.js'
 
 export default {
   name: 'Welcome',
-  components: {
-  },
   data () {
     return {
       title: '',
       html: '',
+      isLoggedIn: false,
     }
   },
   methods: {
@@ -30,6 +35,8 @@ export default {
       this.title = res.title
       this.html = res.text.data
     })
+
+    this.isLoggedIn = isLoggedIn()
   },
 }
 </script>

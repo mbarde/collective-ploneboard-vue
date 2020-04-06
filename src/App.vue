@@ -6,10 +6,16 @@
              src="./assets/logo.png"
              alt="Logo Universität Koblenz - Landau"/>
       </a>
+      <b-dropdown
+        v-if="isLoggedIn"
+        :text="`Eingeloggt als ${username}`"
+        variant="default">
+        <b-dropdown-item @click="handleLogout">Ausloggen</b-dropdown-item>
+      </b-dropdown>
     </b-container>
     <nav-bar ref="navbar"></nav-bar>
     <div class="content">
-      <router-view/>
+      <router-view v-on:logged-state-changed="onLoggedStateChanged()"/>
     </div>
     <br/>
     <app-footer></app-footer>
@@ -17,6 +23,7 @@
 </template>
 
 <script>
+import { getUsername, isLoggedIn, logout } from '../utils/auth.js'
 import AppFooter from '@/components/AppFooter'
 import NavBar from '@/components/NavBar'
 
@@ -31,9 +38,32 @@ export default {
       this.$refs.navbar.update()
     }
   },
+  data () {
+    return {
+      isLoggedIn: false,
+      username: '',
+    }
+  },
   methods: {
+    onLoggedStateChanged () {
+      this.updateIsLoggedIn()
+    },
+    handleLogout () {
+      logout()
+      this.updateIsLoggedIn()
+      if (this.$route.path === '/') {
+        this.$router.go()
+      } else {
+        this.$router.push('/')
+      }
+    },
+    updateIsLoggedIn () {
+      this.isLoggedIn = isLoggedIn()
+      if (this.isLoggedIn) this.username = getUsername()
+    }
   },
   mounted () {
+    this.updateIsLoggedIn()
   }
 }
 </script>

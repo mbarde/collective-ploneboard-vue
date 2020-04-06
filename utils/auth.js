@@ -17,7 +17,7 @@ export function setToken (accessToken) {
 
 export function isLoggedIn () {
   const token = getToken()
-  return !!token && !isTokenExpired(token)
+  return token && !isTokenExpired(token)
 }
 
 export function setUsername (username) {
