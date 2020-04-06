@@ -85,6 +85,10 @@ body > div {
   color: #073F8B;
 }
 
+#app a.btn-primary {
+  color: white;
+}
+
 #app .logo {
   width: 200px;
 }
