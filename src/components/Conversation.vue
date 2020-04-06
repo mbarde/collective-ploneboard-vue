@@ -20,11 +20,12 @@
               :conversation-url="url"
               :reply-to-id="comment.comment_id"
               v-on:comment-created="loadComments"></comment-form>
-           <template v-slot:modal-footer>
+           <template v-slot:modal-footer="{ cancel }">
              <b-btn squared variant="primary"
                     style="flex: auto"
                     @click="submitCommentForm(comment.comment_id)">Abschicken</b-btn>
-             <b-btn squared variant="danger">Abbrechen</b-btn>
+             <b-btn squared variant="danger"
+                    @click="cancel()">Abbrechen</b-btn>
            </template>
           </b-modal>
         </div>

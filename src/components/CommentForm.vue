@@ -3,7 +3,7 @@
     <b-form-textarea
       id="textarea"
       v-model="text"
-      placeholder="Enter something..."
+      placeholder="Ihr Text ..."
       rows="3"
       max-rows="6"></b-form-textarea>
     <b-btn v-if="isReply == false" @click="submit()"
@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     submit () {
+      if (this.text.length == 0) return
       let data = {'text': this.text}
       createContent(this.postUrl, data).then((res) => {
         if (res.status === 204) {
