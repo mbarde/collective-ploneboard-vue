@@ -3,14 +3,13 @@
     <b-row>
       <b-col cols-md="6" offset-md="3">
         <h1>{{title}}</h1>
-        <p>{{description}}</p>
+        <p v-if="description.length > 0">{{description}}</p>
         <b-list-group>
           <b-list-group-item
             v-for="conversation in conversations"
-            :key="conversation['@id']">
-            <a :href="getConversationUrl(conversation)">
+            :key="conversation['@id']"
+            :href="getConversationUrl(conversation)">
               {{conversation.title}}
-            </a>
           </b-list-group-item>
         </b-list-group>
       </b-col>

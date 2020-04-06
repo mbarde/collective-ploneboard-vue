@@ -3,13 +3,16 @@
     <b-row>
       <b-col cols-md="6" offset-md="3">
         <h1>{{title}}</h1>
+        <p v-if="description.length > 0">
+          {{description}}
+        </p>
         <b-list-group>
           <b-list-group-item
             v-for="topic in topics"
-            :key="topic['@id']">
-            <a :href="getTopicUrl(topic)">
-              {{topic.title}}
-            </a>
+            :key="topic['@id']"
+            :href="getTopicUrl(topic)">
+              <h4>{{topic.title}}</h4>
+              {{topic.description}}
           </b-list-group-item>
         </b-list-group>
       </b-col>
@@ -27,6 +30,7 @@ export default {
     return {
       id: '',
       title: '',
+      description: '',
       topics: [],
     }
   },
@@ -41,6 +45,7 @@ export default {
     readContent(url).then((res) => {
       this.id = res.id
       this.title = res.title
+      this.description = res.description
       this.topics = res.items
     })
   },
