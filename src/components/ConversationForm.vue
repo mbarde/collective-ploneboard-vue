@@ -54,7 +54,10 @@ export default {
     },
     submit () {
       this.isSubmitting = true
-      if (this.validate() === false) return
+      if (this.validate() === false) {
+        this.isSubmitting = false
+        return
+      }
 
       let data = {
         '@type': 'Conversation',

@@ -9,9 +9,10 @@
       placeholder="Ihr Text ..."
       rows="3"
       max-rows="6"></b-form-textarea>
-    <b-btn v-if="isReply == false" @click="submit()"
-            squared class="mt-2" variant="primary"
-            :disabled="isSubmitting">
+    <b-btn v-if="commentId == false && isReply == false"
+           @click="submit()"
+           squared class="mt-2" variant="primary"
+           :disabled="isSubmitting">
        <b-spinner small v-if="isSubmitting"></b-spinner>
        Abschicken
     </b-btn>
@@ -19,18 +20,19 @@
 </template>
 
 <script>
-import { createContent } from '../../utils/plone-api.js'
+import { createContent, readContent, updateContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
   name: 'CommentForm',
-  props: ['conversationUrl', 'replyToId'],
+  props: ['conversationUrl', 'replyToId', 'commentUrl'],
   data () {
     return {
       postUrl: '',
-      isReply: false,
       text: '',
       errorMessage: '',
+      commentId: false,
+      isReply: false,
       isSubmitting: false,
     }
   },
@@ -45,28 +47,53 @@ export default {
     },
     submit () {
       this.isSubmitting = true
-      if (this.validate() === false) return
+      if (this.validate() === false) {
+        this.isSubmitting = false
+        return
+      }
 
       let data = {'text': this.text}
-      createContent(this.postUrl, data).then((res) => {
-        if (res.status === 204) {
-          this.text = ''
-          let newCommentUrl = res.headers.location
-          let newCommentId = url2id(newCommentUrl)
-          this.$emit('comment-created', newCommentId)
-        }
-        this.isSubmitting = false
-      })
+      if (this.commentId != false) {
+        updateContent(this.postUrl, data).then((res) => {
+          if (res.status === 204) {
+            this.text = ''
+            this.$emit('comment-updated', this.commentId)
+          }
+          this.isSubmitting = false
+        })
+      } else {
+        createContent(this.postUrl, data).then((res) => {
+          if (res.status === 204) {
+            this.text = ''
+            let newCommentUrl = res.headers.location
+            let newCommentId = url2id(newCommentUrl)
+            this.$emit('comment-created', newCommentId)
+          }
+          this.isSubmitting = false
+        })
+      }
     }
   },
   mounted () {
-    this.postUrl = this.conversationUrl + '/@comments'
-    if (this.replyToId != null) {
-      this.replyToIdData = this.replyToId
-      this.postUrl += `/${this.replyToIdData}`
-      this.isReply = true
+    /* are we editing an existing comment? */
+    if (this.commentUrl != null) {
+      this.postUrl = this.commentUrl
+      readContent(this.commentUrl).then((res) => {
+        this.commentId = res.comment_id
+        this.text = res.text.data
+      })
     } else {
-      this.isReply = false
+    /* otherwise we are creating a new comment
+       (which could also be a reply) */
+      this.commentId = false
+      this.postUrl = this.conversationUrl + '/@comments'
+      if (this.replyToId != null) {
+        this.replyToIdData = this.replyToId
+        this.postUrl += `/${this.replyToIdData}`
+        this.isReply = true
+      } else {
+        this.isReply = false
+      }
     }
   },
 }

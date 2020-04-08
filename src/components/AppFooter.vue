@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="main-footer">
     <b-container>
       <p v-html="html"></p>
     </b-container>
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss">
-footer {
+footer.main-footer {
   background-color: var(--primary);
   color: white;
   margin-top: 20px;
@@ -36,7 +36,7 @@ footer {
   padding-bottom: 20px;
 }
 
-footer a {
+footer.main-footer a {
   color: white !important;
 }
 </style>

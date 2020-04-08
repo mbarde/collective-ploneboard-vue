@@ -6,7 +6,11 @@
           <b-card-text v-html="nl2brLocal(text)" class="mt-4"></b-card-text>
         </b-card>
         <div v-for="comment in comments" :key="comment['@id']">
-          <comment :comment="comment" :is-new="comment.comment_id == newCommentId"></comment>
+          <comment
+            :comment="comment"
+            :is-new="comment.comment_id == newCommentId"
+            v-on:comment-updated="loadComments">
+          </comment>
           <template v-if="allowReplies">
             <b-btn
               variant="primary"
@@ -19,14 +23,18 @@
               title="Antworten">
               <comment-form
                 v-if="url.length > 0"
-                :ref="`form-${comment.comment_id}`"
+                :ref="`form-replyto-${comment.comment_id}`"
                 :conversation-url="url"
                 :reply-to-id="comment.comment_id"
                 v-on:comment-created="loadComments"></comment-form>
               <template v-slot:modal-footer="{ cancel }">
                 <b-btn squared variant="primary"
                        style="flex: auto"
-                       @click="submitCommentForm(comment.comment_id)">Abschicken</b-btn>
+                       @click="submitCommentForm(comment.comment_id)"
+                       :disabled="isSubmitting">
+                   <b-spinner small v-if="isSubmitting"></b-spinner>
+                   Abschicken
+                </b-btn>
                 <b-btn squared variant="danger"
                        @click="cancel()">Abbrechen</b-btn>
               </template>
@@ -60,7 +68,7 @@ export default {
   },
   data () {
     return {
-      allowReplies: false,
+      allowReplies: true,
       boardId: '',
       topicId: '',
       conversationId: '',
@@ -73,14 +81,17 @@ export default {
       text: '',
       comments: [],
       newCommentId: '',
+      isSubmitting: false,
     }
   },
   methods: {
     submitCommentForm (commentId) {
-      let form = this.$refs['form-' + commentId][0]
+      this.isSubmitting = true
+      let form = this.$refs['form-replyto-' + commentId][0]
       form.submit()
     },
     loadComments (newCommentId) {
+      this.isSubmitting = false
       this.comments = []
       if (newCommentId != false) this.newCommentId = newCommentId
       else this.newCommentId = ''
