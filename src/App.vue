@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-container>
-      <a href="/#/">
+      <a href="#/">
         <img class="logo"
              src="./assets/logo.png"
              alt="Logo Universität Koblenz - Landau"/>

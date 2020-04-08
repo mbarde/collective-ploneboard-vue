@@ -5,7 +5,7 @@
         <b-nav-item
           v-for="(item, index) in navItems"
           :key="index"
-          :href="`/#${item.path}`"
+          :href="`#${item.path}`"
           :active="index == navItems.length - 1 ? true : false">
           {{item.title}}
         </b-nav-item>
