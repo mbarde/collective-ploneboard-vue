@@ -5,10 +5,16 @@
         <template v-slot:header>
           <span class="author">{{author}} sagt:</span>
           <span class="date">{{date}}</span>
-          <a class="edit" v-if="editable"
-             v-b-modal="`modal-edit-${id}`">
-            <font-awesome-icon icon="edit"/> Bearbeiten
-          </a>
+          <span v-if="deletable || editable" class="tools">
+            <a class="delete" v-if="deletable"
+               v-b-modal="`modal-delete-${id}`">
+              <font-awesome-icon icon="trash"/> Löschen
+            </a>
+            <a class="edit" v-if="editable"
+               v-b-modal="`modal-edit-${id}`">
+              <font-awesome-icon icon="edit"/> Bearbeiten
+            </a>
+          </span>
         </template>
         <b-card-text v-html="nl2brLocal(text)"></b-card-text>
       </b-card>
@@ -33,12 +39,31 @@
                @click="cancel()">Abbrechen</b-btn>
       </template>
     </b-modal>
+    <b-modal
+      :id="`modal-delete-${id}`"
+      :ref="`modal-delete-${id}`"
+      title="Kommentar wirklich löschen?">
+      Das kann nicht rückgängig gemacht werden.
+      <template v-slot:modal-footer="{ cancel }">
+        <b-btn squared variant="danger"
+               style="flex: auto"
+               @click="deleteComment()"
+               :disabled="isSubmitting">
+           <b-spinner small v-if="isSubmitting"></b-spinner>
+           <font-awesome-icon icon="trash"/> Löschen
+        </b-btn>
+        <b-btn squared variant="secondary"
+               style="flex: auto"
+               @click="cancel()">Abbrechen</b-btn>
+      </template>
+    </b-modal>
   </b-row>
 </template>
 
 <script>
 import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
+import { deleteContent } from '../../utils/plone-api.js'
 import { mail2userid, nl2br } from '../../utils/tools.js'
 
 export default {
@@ -57,6 +82,7 @@ export default {
       text: '',
       offset: 0,
       editable: false,
+      deletable: false,
       isSubmitting: false,
     }
   },
@@ -73,6 +99,18 @@ export default {
       this.isSubmitting = false
       this.$emit('comment-updated', this.id)
     },
+    deleteComment () {
+      this.isSubmitting = true
+      deleteContent(this.url).then((res) => {
+        if (res.status == 204) {
+          this.$emit('comment-deleted', this.id)
+          this.cssClasses.push('deleted')
+          let modal = this.$refs['modal-delete-' + this.id]
+          modal.hide()
+        }
+        this.isSubmitting = false
+      })
+    }
   },
   mounted () {
     this.url = this.comment['@id']
@@ -81,6 +119,7 @@ export default {
     this.date = moment(this.comment.modification_date).format('DD.MM.YYYY - HH:mm') + ' Uhr'
     this.text = this.comment.text.data
     this.editable = this.comment.is_editable
+    this.deletable = this.comment.is_deletable
     if (this.comment.in_reply_to != null) this.offset = 1
     if (this.isNew == true) {
       this.cssClasses.push('new')
@@ -96,12 +135,26 @@ export default {
   line-height: 80%;
 }
 
-.comment .edit {
-  cursor: pointer;
+.comment .tools {
   float: right;
-  margin-right: 10px;
 }
 
+@media (max-width: 500px) {
+  .comment .tools {
+    display: block;
+    margin-top: 10px;
+    text-align: right;
+    width: 100%;
+  }
+}
+
+.comment .delete,
+.comment .edit {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.comment .delete:hover,
 .comment .edit:hover {
   color: black !important;
 }
@@ -109,11 +162,18 @@ export default {
 .comment .date {
   float: right;
   font-style: italic;
+  margin-left: 10px;
 }
 
 .comment.new {
   animation-name: highlight-new;
   animation-duration: 4s;
+}
+
+.comment.deleted {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
 }
 
 @keyframes highlight-new {

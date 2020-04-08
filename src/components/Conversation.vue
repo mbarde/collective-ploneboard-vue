@@ -9,7 +9,8 @@
           <comment
             :comment="comment"
             :is-new="comment.comment_id == newCommentId"
-            v-on:comment-updated="loadComments">
+            v-on:comment-updated="loadComments"
+            v-on:comment-deleted="onCommentDeleted">
           </comment>
           <template v-if="allowReplies">
             <b-btn
@@ -103,6 +104,16 @@ export default {
           }, 0)
         }
       })
+    },
+    onCommentDeleted (commentId) {
+      let found = false
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].comment_id == commentId) {
+          found = i
+          break
+        }
+      }
+      if (found != false) this.comments.splice(found, 1)
     },
     nl2brLocal (str) {
       return nl2br(str)
