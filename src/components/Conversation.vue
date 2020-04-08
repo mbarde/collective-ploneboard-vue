@@ -106,13 +106,10 @@ export default {
       this.modified = res.modified
       this.title = res.title
       this.text = res.text.data
+      this.author = res.creators.pop()
 
-      /* use @history endpoint to get name of creator */
-      readContent(this.url + '/@history').then((res) => {
-        this.author = res.pop().actor.fullname
-        let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
-        this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
-      })
+      let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
+      this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
     })
 
     this.loadComments(false)
