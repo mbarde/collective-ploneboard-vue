@@ -22,7 +22,7 @@
                   @click="login()"
                   :disabled="tryingLogin">
             <b-spinner small v-if="tryingLogin"></b-spinner>
-            <font-awesome-icon icon="sign-in-alt"/> Login
+            <font-awesome-icon v-if="!tryingLogin" icon="sign-in-alt"/> Login
           </button>
       </b-col>
     </b-row>
