@@ -68,7 +68,7 @@ export default {
   },
   data () {
     return {
-      allowReplies: true,
+      allowReplies: false,
       boardId: '',
       topicId: '',
       conversationId: '',
