@@ -7,5 +7,11 @@ module.exports = {
       args[0].title = 'ErstiForum'
       return args
     })
-  }
+  },
+  css: {
+    sourceMap: true
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+                ? '/~plone/collective-ploneboard-vue/dist/'
+                : '/',
 }
