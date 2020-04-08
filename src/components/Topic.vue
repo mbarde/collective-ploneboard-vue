@@ -19,7 +19,11 @@
         </b-list-group>
 
         <hr/>
-        <conversation-form v-if="url.length > 0" :topic-url="url"></conversation-form>
+        <conversation-form
+          v-if="url.length > 0"
+          :topic-url="url"
+          v-on:conversation-created="onConversationCreated"
+        ></conversation-form>
       </b-col>
     </b-row>
   </b-container>
@@ -52,11 +56,17 @@ export default {
       const conversationId = url2id(conversation['@id'])
       return `#/${this.boardId}/${this.topicId}/${conversationId}`
     },
+    onConversationCreated (newConversationId) {
+      /* jump to newly created conversation */
+      this.$router.push(`${this.url}/${newConversationId}`)
+    }
   },
   mounted () {
+    this.initialized = false
     this.boardId = this.$route.params.boardId
     this.topicId = this.$route.params.topicId
     this.url = `/${this.boardId}/${this.topicId}`
+
     readContent(this.url).then((res) => {
       this.title = res.title
       this.description = res.description
@@ -72,6 +82,7 @@ export default {
             resolve()
           })
         }))
+
         /* get comment count of each conversation */
         promises.push(new Promise((resolve) => {
           readContent(conversation['@id'] + '/@comments').then((res) => {

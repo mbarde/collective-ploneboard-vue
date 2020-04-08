@@ -16,7 +16,11 @@
       rows="3"
       max-rows="6"></b-form-textarea>
     <b-btn @click="submit()" squared
-           class="mt-2" variant="primary">Abschicken</b-btn>
+           class="mt-2" variant="primary"
+           :disabled="isSubmitting">
+      <b-spinner small v-if="isSubmitting"></b-spinner>
+      Abschicken
+    </b-btn>
   </b-form>
 </template>
 
@@ -33,6 +37,7 @@ export default {
       title: '',
       text: '',
       errorMessage: '',
+      isSubmitting: false,
     }
   },
   methods: {
@@ -48,6 +53,7 @@ export default {
       return true
     },
     submit () {
+      this.isSubmitting = true
       if (this.validate() === false) return
 
       let data = {
@@ -56,13 +62,14 @@ export default {
         'text': this.text
       }
       createContent(this.containerUrl, data).then((res) => {
-        if (res.status === 204) {
+        if (res.status === 201) {
           this.title = ''
           this.text = ''
-          let newCommentUrl = res.headers.location
-          let newCommentId = url2id(newCommentUrl)
-          this.$emit('comment-created', newCommentId)
+          let newConversationUrl = res.headers.location
+          let newConversationId = url2id(newConversationUrl)
+          this.$emit('conversation-created', newConversationId)
         }
+        this.isSubmitting = false
       })
     }
   },
