@@ -11,7 +11,10 @@
             :key="conversation['@id']"
             :href="getConversationUrl(conversation)">
               {{conversation.title}}
-              <i>{{conversation.comment_count}} Kommentare</i>
+              <i class="comments">{{conversation.comment_count}} Kommentare</i>
+              <br/>
+              <i class="author">von {{conversation.author}} </i>
+              <i class="date">({{conversation.modified_string}})</i>
           </b-list-group-item>
         </b-list-group>
 
@@ -26,6 +29,7 @@
 import { readContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 import ConversationForm from '@/components/ConversationForm'
+import moment from 'moment'
 
 export default {
   name: 'Topic',
@@ -58,9 +62,17 @@ export default {
       this.description = res.description
       this.conversations = res.items
 
-      /* get comment count of each conversation */
       let promises = []
       this.conversations.forEach((conversation) => {
+        promises.push(new Promise((resolve) => {
+          readContent(conversation['@id']).then((res) => {
+            conversation.author = res.creators.pop()
+            conversation.modified_string = moment(res.modified)
+              .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+            resolve()
+          })
+        }))
+        /* get comment count of each conversation */
         promises.push(new Promise((resolve) => {
           readContent(conversation['@id'] + '/@comments').then((res) => {
             conversation.comment_count = res.items_total
@@ -77,7 +89,12 @@ export default {
 </script>
 
 <style scoped>
-.list-group-item.conversation i {
+.list-group-item.conversation i.author,
+.list-group-item.conversation i.date {
+  font-size: 90%;
+  font-style: italic;
+}
+.list-group-item.conversation i.comments {
   float: right;
   font-size: 80%;
   font-style: italic;
