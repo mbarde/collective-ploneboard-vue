@@ -10,7 +10,11 @@
       rows="3"
       max-rows="6"></b-form-textarea>
     <b-btn v-if="isReply == false" @click="submit()"
-            squared class="mt-2" variant="primary">Abschicken</b-btn>
+            squared class="mt-2" variant="primary"
+            :disabled="isSubmitting">
+       <b-spinner small v-if="isSubmitting"></b-spinner>
+       Abschicken
+    </b-btn>
   </b-form>
 </template>
 
@@ -27,6 +31,7 @@ export default {
       isReply: false,
       text: '',
       errorMessage: '',
+      isSubmitting: false,
     }
   },
   methods: {
@@ -39,6 +44,7 @@ export default {
       return true
     },
     submit () {
+      this.isSubmitting = true
       if (this.validate() === false) return
 
       let data = {'text': this.text}
@@ -49,6 +55,7 @@ export default {
           let newCommentId = url2id(newCommentUrl)
           this.$emit('comment-created', newCommentId)
         }
+        this.isSubmitting = false
       })
     }
   },
