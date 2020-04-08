@@ -4,26 +4,33 @@
       <b-col>
         <h1>{{title}}</h1>
         <p v-if="description.length > 0">{{description}}</p>
-        <b-list-group v-if="initialized">
-          <b-list-group-item
-            class="conversation"
-            v-for="conversation in conversations"
-            :key="conversation['@id']"
-            :href="getConversationUrl(conversation)">
-              {{conversation.title}}
-              <i class="comments">{{conversation.comment_count}} Kommentare</i>
-              <br/>
-              <i class="author">von {{conversation.author}} </i>
-              <i class="date">({{conversation.modified_string}})</i>
-          </b-list-group-item>
-        </b-list-group>
+        <template v-if="initialized">
+          <b-list-group>
+            <b-list-group-item
+              class="conversation"
+              v-for="conversation in conversations"
+              :key="conversation['@id']"
+              :href="getConversationUrl(conversation)">
+                {{conversation.title}}
+                <i class="comments">{{conversation.comment_count}} Kommentare</i>
+                <br/>
+                <i class="author">von {{conversation.author}} </i>
+                <i class="date">({{conversation.modified_string}})</i>
+            </b-list-group-item>
+          </b-list-group>
 
-        <hr/>
-        <conversation-form
-          v-if="url.length > 0"
-          :topic-url="url"
-          v-on:conversation-created="onConversationCreated"
-        ></conversation-form>
+          <hr/>
+          <conversation-form
+            v-if="url.length > 0"
+            :topic-url="url"
+            v-on:conversation-created="onConversationCreated"
+          ></conversation-form>
+        </template>
+
+        <b-col v-else cols="12" class="text-center">
+          <br/><br/>
+          <b-spinner label="Loading..." type="grow"></b-spinner>
+        </b-col>
       </b-col>
     </b-row>
   </b-container>

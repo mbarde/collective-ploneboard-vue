@@ -5,53 +5,58 @@
         <b-card :title="title" :sub-title="subTitle" class="main">
           <b-card-text v-html="nl2brLocal(text)" class="mt-4"></b-card-text>
         </b-card>
-        <div v-for="comment in comments" :key="comment['@id']">
-          <comment
-            :comment="comment"
-            :is-new="comment.comment_id == newCommentId"
-            v-on:comment-updated="loadComments"
-            v-on:comment-deleted="onCommentDeleted">
-          </comment>
-          <template v-if="allowReplies">
-            <b-btn
-              variant="primary"
-              class="float-right mt-1 mb-3" squared size="sm"
-              v-b-modal="`modal-reply-${comment.comment_id}`">
-              Antworten</b-btn>
-            <br style="clear:both"/>
-            <b-modal
-              :id="`modal-reply-${comment.comment_id}`"
-              title="Antworten">
-              <comment-form
-                v-if="url.length > 0"
-                :ref="`form-replyto-${comment.comment_id}`"
-                :conversation-url="url"
-                :reply-to-id="comment.comment_id"
-                v-on:comment-created="loadComments"></comment-form>
-              <template v-slot:modal-footer="{ cancel }">
-                <b-btn squared variant="primary"
-                       style="flex: auto"
-                       @click="submitCommentForm(comment.comment_id)"
-                       :disabled="isSubmitting">
-                   <b-spinner small v-if="isSubmitting"></b-spinner>
-                   Abschicken
-                </b-btn>
-                <b-btn squared variant="danger"
-                       @click="cancel()">Abbrechen</b-btn>
-              </template>
-            </b-modal>
-          </template><!-- if allowReplies -->
-        </div>
-
-        <hr/>
-        <h4>
-          <font-awesome-icon icon="comment"/>
-          Neuen Kommentar hinzufügen
-        </h4>
-        <comment-form
-          v-if="url.length > 0"
-          :conversation-url="url"
-          v-on:comment-created="loadComments"></comment-form>
+        <template v-if="initialized">
+          <div v-for="comment in comments" :key="comment['@id']">
+            <comment
+              :comment="comment"
+              :is-new="comment.comment_id == newCommentId"
+              v-on:comment-updated="loadComments"
+              v-on:comment-deleted="onCommentDeleted">
+            </comment>
+            <template v-if="allowReplies">
+              <b-btn
+                variant="primary"
+                class="float-right mt-1 mb-3" squared size="sm"
+                v-b-modal="`modal-reply-${comment.comment_id}`">
+                Antworten</b-btn>
+              <br style="clear:both"/>
+              <b-modal
+                :id="`modal-reply-${comment.comment_id}`"
+                title="Antworten">
+                <comment-form
+                  v-if="url.length > 0"
+                  :ref="`form-replyto-${comment.comment_id}`"
+                  :conversation-url="url"
+                  :reply-to-id="comment.comment_id"
+                  v-on:comment-created="loadComments"></comment-form>
+                <template v-slot:modal-footer="{ cancel }">
+                  <b-btn squared variant="primary"
+                         style="flex: auto"
+                         @click="submitCommentForm(comment.comment_id)"
+                         :disabled="isSubmitting">
+                     <b-spinner small v-if="isSubmitting"></b-spinner>
+                     Abschicken
+                  </b-btn>
+                  <b-btn squared variant="danger"
+                         @click="cancel()">Abbrechen</b-btn>
+                </template>
+              </b-modal>
+            </template><!-- if allowReplies -->
+          </div>
+          <hr/>
+          <h4>
+            <font-awesome-icon icon="comment"/>
+            Neuen Kommentar hinzufügen
+          </h4>
+          <comment-form
+            v-if="url.length > 0"
+            :conversation-url="url"
+            v-on:comment-created="loadComments"></comment-form>
+          </template>
+          <b-col v-else cols="12" class="text-center">
+            <br/><br/>
+            <b-spinner label="Loading..." type="grow"></b-spinner>
+          </b-col>
       </b-col>
     </b-row>
   </b-container>
@@ -86,6 +91,7 @@ export default {
       comments: [],
       newCommentId: '',
       isSubmitting: false,
+      initialized: false,
     }
   },
   methods: {
@@ -95,12 +101,14 @@ export default {
       form.submit()
     },
     loadComments (newCommentId) {
+      this.initialized = false
       this.isSubmitting = false
       this.comments = []
       if (newCommentId != false) this.newCommentId = newCommentId
       else this.newCommentId = ''
       readContent(this.url + '/@comments?b_size=999999').then((res) => {
         this.comments = res.items
+        this.initialized = true
         if (newCommentId != false) {
           setTimeout(() => {
             this.$scrollTo(`#comment-${newCommentId}`)

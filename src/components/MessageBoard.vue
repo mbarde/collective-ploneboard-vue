@@ -16,6 +16,10 @@
               <i>{{topic.conversation_count}} Unterhaltungen</i>
           </b-list-group-item>
         </b-list-group>
+        <b-col v-else cols="12" class="text-center">
+          <br/><br/>
+          <b-spinner label="Loading..." type="grow"></b-spinner>
+        </b-col>
       </b-col>
     </b-row>
   </b-container>
