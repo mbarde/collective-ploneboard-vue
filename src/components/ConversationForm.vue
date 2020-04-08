@@ -1,6 +1,9 @@
 <template>
   <b-form>
-    <h4>Neue Unterhaltung aufmachen</h4>
+    <h4>
+      <font-awesome-icon icon="comments"/>
+      Neue Unterhaltung aufmachen
+    </h4>
     <b-alert v-if="errorMessage.length > 0" variant="danger" show>
       {{errorMessage}}
     </b-alert>

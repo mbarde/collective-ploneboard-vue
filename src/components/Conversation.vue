@@ -44,7 +44,10 @@
         </div>
 
         <hr/>
-        <h4>Neuen Kommentar hinzufügen</h4>
+        <h4>
+          <font-awesome-icon icon="comment"/>
+          Neuen Kommentar hinzufügen
+        </h4>
         <comment-form
           v-if="url.length > 0"
           :conversation-url="url"
