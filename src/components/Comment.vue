@@ -3,7 +3,10 @@
     <b-col :offset="offset">
       <b-card :id="`comment-${id}`" :class="cssClasses.join(' ')">
         <template v-slot:header>
-          <span class="author">{{author}} sagt:</span>
+          <span class="author">
+            <font-awesome-icon icon="user" class="mr-1"/>
+            {{author}} sagt:
+          </span>
           <span class="date">{{date}}</span>
           <span v-if="deletable || editable" class="tools">
             <a class="delete" v-if="deletable"

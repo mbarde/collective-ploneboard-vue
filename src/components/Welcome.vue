@@ -6,10 +6,14 @@
         <p v-html="html"></p>
         <b-btn v-if="isLoggedIn"
                href="#/forum"
-               variant="primary">Zum Forum</b-btn>
+               variant="primary">
+          <font-awesome-icon icon="comments"/> Zum Forum
+        </b-btn>
         <b-btn v-else
                href="#/login"
-               variant="primary">Anmelden</b-btn>
+               variant="primary">
+          <font-awesome-icon icon="sign-in-alt"/> Anmelden
+        </b-btn>
       </b-col>
     </b-row>
   </b-container>

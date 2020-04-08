@@ -10,7 +10,9 @@
         v-if="isLoggedIn" class="float-right"
         :text="`Eingeloggt als ${username}`"
         variant="default">
-        <b-dropdown-item @click="handleLogout">Ausloggen</b-dropdown-item>
+        <b-dropdown-item @click="handleLogout">
+          <font-awesome-icon icon="sign-out-alt"/> Ausloggen
+        </b-dropdown-item>
       </b-dropdown>
     </b-container>
     <nav-bar ref="navbar"></nav-bar>
