@@ -30,8 +30,9 @@
 </template>
 
 <script>
-import { login, readContent, readStaticPage } from '../../utils/plone-api'
 import { isLoggedIn, setUsername, setUserId } from '../../utils/auth'
+import { login, readContent, readStaticPage } from '../../utils/plone-api'
+import { mail2userid } from '../../utils/tools'
 
 export default {
   name: 'Login',
@@ -55,7 +56,7 @@ export default {
         }
         if (isLoggedIn()) {
           readContent('/@users/' + this.usermail).then((res) => {
-            var fullname = res.fullname.trim()
+            let fullname = mail2userid(res.username)
             setUserId(res.id)
             setUsername(fullname)
             this.$emit('logged-state-changed')
