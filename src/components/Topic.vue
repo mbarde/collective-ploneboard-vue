@@ -27,7 +27,7 @@
 
 <script>
 import { readContent } from '../../utils/plone-api.js'
-import { url2id } from '../../utils/tools.js'
+import { mail2userid, url2id } from '../../utils/tools.js'
 import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
 
@@ -66,7 +66,7 @@ export default {
       this.conversations.forEach((conversation) => {
         promises.push(new Promise((resolve) => {
           readContent(conversation['@id']).then((res) => {
-            conversation.author = res.creators.pop()
+            conversation.author = mail2userid(res.creators.pop())
             conversation.modified_string = moment(res.modified)
               .format('DD.MM.YYYY - HH:mm') + ' Uhr'
             resolve()

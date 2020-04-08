@@ -14,7 +14,7 @@
 
 <script>
 import moment from 'moment'
-import { nl2br } from '../../utils/tools.js'
+import { mail2userid, nl2br } from '../../utils/tools.js'
 
 export default {
   name: 'Comment',
@@ -36,7 +36,7 @@ export default {
   },
   mounted () {
     this.id = this.comment.comment_id
-    this.author = this.comment.author_name
+    this.author = mail2userid(this.comment.author_username)
     this.date = moment(this.comment.modification_date).format('DD.MM.YYYY - HH:mm') + ' Uhr'
     this.text = this.comment.text.data
     if (this.comment.in_reply_to != null) this.offset = 1

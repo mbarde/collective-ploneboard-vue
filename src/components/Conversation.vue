@@ -50,7 +50,7 @@ import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
 import { readContent } from '../../utils/plone-api.js'
-import { nl2br } from '../../utils/tools.js'
+import { mail2userid, nl2br } from '../../utils/tools.js'
 
 export default {
   name: 'Conversation',
@@ -106,7 +106,7 @@ export default {
       this.modified = res.modified
       this.title = res.title
       this.text = res.text.data
-      this.author = res.creators.pop()
+      this.author = mail2userid(res.creators.pop())
 
       let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
       this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
