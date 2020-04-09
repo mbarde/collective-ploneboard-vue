@@ -16,7 +16,10 @@
                 <br/>
                 <i class="author">von {{conversation.author}} </i>
                 <i class="date">({{conversation.modified_string}})</i>
-                <i class="newest-comment">letzter: {{conversation.comments_modified_string}}</i>
+                <i class="newest-comment"
+                   v-if="conversation.comments_modified_string">
+                   letzter: {{conversation.comments_modified_string}}
+                </i>
             </b-list-group-item>
           </b-list-group>
 
@@ -97,7 +100,8 @@ export default {
         promises.push(new Promise((resolve) => {
           readContent(conversation['@id']).then((res) => {
             conversation.author = mail2userid(res.creators.pop())
-            conversation.modified_string = moment(res.modified)
+            conversation.modified = moment(res.modified)
+            conversation.modified_string = conversation.modified
               .format('DD.MM.YYYY - HH:mm') + ' Uhr'
             resolve()
           })
@@ -108,16 +112,26 @@ export default {
           readContent(conversation['@id'] + '/@comments').then((res) => {
             conversation.comment_count = res.items_total
 
-            let mcc = this.findMostCurrentComment(res.items)
-            conversation.comments_modified = moment(mcc.modification_date)
-            conversation.comments_modified_string = conversation.comments_modified
-              .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+            if (res.items_total == 0) {
+              conversation.comments_modified = conversation.modified
+              conversation.comments_modified_string = ''
+            } else {
+              let mcc = this.findMostCurrentComment(res.items)
+              conversation.comments_modified = moment
+                .utc(mcc.modification_date)
+                .local()
+              conversation.comments_modified_string = conversation.comments_modified
+                .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+            }
             resolve()
           })
         }))
       })
       Promise.all(promises).then(() => {
         this.initialized = true
+        this.conversations.sort((a, b) => {
+          return a.comments_modified < b.comments_modified
+        })
       })
     })
   },

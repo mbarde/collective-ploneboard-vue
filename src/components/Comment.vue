@@ -119,7 +119,10 @@ export default {
     this.url = this.comment['@id']
     this.id = this.comment.comment_id
     this.author = mail2userid(this.comment.author_username)
-    this.date = moment(this.comment.modification_date).format('DD.MM.YYYY - HH:mm') + ' Uhr'
+    this.date = moment
+      .utc(this.comment.modification_date)
+      .local()
+      .format('DD.MM.YYYY - HH:mm') + ' Uhr'
     this.text = this.comment.text.data
     this.editable = this.comment.is_editable
     this.deletable = this.comment.is_deletable
