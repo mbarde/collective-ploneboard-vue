@@ -16,6 +16,7 @@
                 <br/>
                 <i class="author">von {{conversation.author}} </i>
                 <i class="date">({{conversation.modified_string}})</i>
+                <i class="newest-comment">letzter: {{conversation.comments_modified_string}}</i>
             </b-list-group-item>
           </b-list-group>
 
@@ -66,6 +67,18 @@ export default {
     onConversationCreated (newConversationId) {
       /* jump to newly created conversation */
       this.$router.push(`${this.url}/${newConversationId}`)
+    },
+    findMostCurrentComment (comments) {
+      let mostCurrentComment = comments[0]
+      let mostCurrentModified = moment(comments[0].modification_date)
+      comments.slice(1).forEach((comment) => {
+        let compareDate = moment(comment.modification_date)
+        if (compareDate > mostCurrentModified) {
+          mostCurrentComment = comment
+          mostCurrentModified = compareDate
+        }
+      })
+      return mostCurrentComment
     }
   },
   mounted () {
@@ -94,6 +107,11 @@ export default {
         promises.push(new Promise((resolve) => {
           readContent(conversation['@id'] + '/@comments').then((res) => {
             conversation.comment_count = res.items_total
+
+            let mcc = this.findMostCurrentComment(res.items)
+            conversation.comments_modified = moment(mcc.modification_date)
+            conversation.comments_modified_string = conversation.comments_modified
+              .format('DD.MM.YYYY - HH:mm') + ' Uhr'
             resolve()
           })
         }))
@@ -112,7 +130,8 @@ export default {
   font-size: 90%;
   font-style: italic;
 }
-.list-group-item.conversation i.comments {
+.list-group-item.conversation i.comments,
+.list-group-item.conversation i.newest-comment {
   float: right;
   font-size: 80%;
   font-style: italic;
