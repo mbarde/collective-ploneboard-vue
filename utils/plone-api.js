@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken, setToken } from './auth'
 import { SESS_PREFIX_CACHED } from './constants'
 
-const BASE_URL = 'https://cms8.uni-koblenz.de:4050/ErstiForum'
+const BASE_URL = 'https://cms8.uni-koblenz.de/ErstiForum'
 const STATIC_PAGES_PATH = '/pages'
 
 export { BASE_URL,

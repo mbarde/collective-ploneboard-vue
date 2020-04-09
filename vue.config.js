@@ -12,6 +12,6 @@ module.exports = {
     sourceMap: true
   },
   publicPath: process.env.NODE_ENV === 'production'
-                ? '/~plone/collective-ploneboard-vue/dist/'
+                ? 'https://www.uni-koblenz-landau.de/ErstiForum/'
                 : '/',
 }
