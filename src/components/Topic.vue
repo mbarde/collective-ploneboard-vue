@@ -109,7 +109,7 @@ export default {
 
         /* get comment count of each conversation */
         promises.push(new Promise((resolve) => {
-          readContent(conversation['@id'] + '/@comments').then((res) => {
+          readContent(conversation['@id'] + '/@comments?b_size=999999').then((res) => {
             conversation.comment_count = res.items_total
 
             if (res.items_total == 0) {
