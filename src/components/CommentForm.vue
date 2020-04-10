@@ -85,7 +85,7 @@ export default {
     }
   },
   mounted () {
-    /* are we editing an existing comment? */
+    /* edit an existing comment? */
     if (this.commentUrl != null) {
       this.postUrl = this.commentUrl
       readContent(this.commentUrl).then((res) => {
@@ -94,7 +94,7 @@ export default {
         this.username = mail2userid(res.author_username)
       })
     } else {
-    /* otherwise we are creating a new comment
+    /* otherwise create a new comment
        (which could also be a reply) */
       this.username = getUsername()
       this.commentId = false

@@ -3,8 +3,40 @@
     <b-row>
       <b-col>
         <b-card :title="title" :sub-title="subTitle" class="main">
+          <a v-if="editable" class="edit-conversation"
+             v-b-modal="'modal-edit-conversation'">
+            <font-awesome-icon icon="edit"/> Bearbeiten
+          </a>
           <b-card-text v-html="nl2brLocal(text)" class="mt-4"></b-card-text>
         </b-card>
+        <b-modal
+          id="modal-edit-conversation"
+          ref="modal-edit-conversation">
+          <template v-slot:modal-header>
+            <h4>
+              <font-awesome-icon icon="comments"/>
+              Unterhaltung bearbeiten
+            </h4>
+          </template>
+          <conversation-form
+            v-if="url.length > 0"
+            ref="form-edit-conversation"
+            :is-embedded="true"
+            :conversation-url="url"
+            v-on:conversation-updated="onConversationUpdated"
+          ></conversation-form>
+          <template v-slot:modal-footer="{ cancel }">
+            <b-btn squared variant="primary"
+                   style="flex: auto"
+                   @click="submitConversationForm()"
+                   :disabled="isSubmitting">
+               <b-spinner small v-if="isSubmitting"></b-spinner>
+               Abschicken
+            </b-btn>
+            <b-btn squared variant="danger"
+                   @click="cancel()">Abbrechen</b-btn>
+          </template>
+        </b-modal>
         <template v-if="initialized">
           <div v-for="comment in comments" :key="comment['@id']">
             <comment
@@ -65,7 +97,9 @@
 <script>
 import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
+import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
+import { getUsername } from '../../utils/auth.js'
 import { readContent } from '../../utils/plone-api.js'
 import { mail2userid, nl2br } from '../../utils/tools.js'
 
@@ -74,6 +108,7 @@ export default {
   components: {
     Comment,
     CommentForm,
+    ConversationForm,
   },
   data () {
     return {
@@ -92,12 +127,18 @@ export default {
       newCommentId: '',
       isSubmitting: false,
       initialized: false,
+      editable: false,
     }
   },
   methods: {
     submitCommentForm (commentId) {
       this.isSubmitting = true
       let form = this.$refs['form-replyto-' + commentId][0]
+      form.submit()
+    },
+    submitConversationForm () {
+      this.isSubmitting = true
+      let form = this.$refs['form-edit-conversation']
       form.submit()
     },
     loadComments (newCommentId) {
@@ -126,8 +167,28 @@ export default {
       }
       if (found != false) this.comments.splice(found, 1)
     },
+    onConversationUpdated () {
+      this.isSubmitting = false
+      let modal = this.$refs['modal-edit-conversation']
+      modal.hide()
+      this.loadData()
+    },
     nl2brLocal (str) {
       return nl2br(str)
+    },
+    loadData () {
+      this.initialized = false
+      readContent(this.url).then((res) => {
+        this.modified = res.modified
+        this.title = res.title
+        this.text = res.text.data
+        this.author = mail2userid(res.creators.pop())
+        this.editable = this.author == getUsername()
+
+        let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
+        this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
+      })
+      this.loadComments(false)
     }
   },
   mounted () {
@@ -135,17 +196,7 @@ export default {
     this.topicId = this.$route.params.topicId
     this.conversationId = this.$route.params.conversationId
     this.url = `/${this.boardId}/${this.topicId}/${this.conversationId}`
-    readContent(this.url).then((res) => {
-      this.modified = res.modified
-      this.title = res.title
-      this.text = res.text.data
-      this.author = mail2userid(res.creators.pop())
-
-      let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
-      this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
-    })
-
-    this.loadComments(false)
+    this.loadData()
   },
 }
 </script>
@@ -154,5 +205,15 @@ export default {
 .card.main .card-subtitle {
   font-size: 80%;
   font-style: italic;
+}
+a.edit-conversation {
+  cursor: pointer;
+  font-size: 80%;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+a.edit-conversation:hover {
+  color: black !important;
 }
 </style>

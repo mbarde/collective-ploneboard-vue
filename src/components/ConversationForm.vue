@@ -1,8 +1,8 @@
 <template>
   <b-form>
-    <h4>
+    <h4 v-if="!embedded">
       <font-awesome-icon icon="comments"/>
-      Neue Unterhaltung aufmachen
+      {{formTitle}}
     </h4>
     <b-alert v-if="errorMessage.length > 0" variant="danger" show>
       {{errorMessage}}
@@ -18,7 +18,8 @@
       placeholder="Ihr Text ..."
       rows="3"
       max-rows="6"></b-form-textarea>
-    <b-btn @click="submit()" squared
+    <b-btn v-if="!embedded"
+           @click="submit()" squared
            class="mt-2" variant="primary"
            :disabled="isSubmitting">
       <b-spinner small v-if="isSubmitting"></b-spinner>
@@ -28,19 +29,22 @@
 </template>
 
 <script>
-import { createContent } from '../../utils/plone-api.js'
+import { createContent, readContent, updateContent } from '../../utils/plone-api.js'
 import { url2id } from '../../utils/tools.js'
 
 export default {
   name: 'ConversationForm',
-  props: ['topicUrl'],
+  props: ['topicUrl', 'conversationUrl', 'isEmbedded'],
   data () {
     return {
       containerUrl: '',
+      url: false,
+      formTitle: '',
       title: '',
       text: '',
       errorMessage: '',
       isSubmitting: false,
+      embedded: false,
     }
   },
   methods: {
@@ -63,23 +67,51 @@ export default {
       }
 
       let data = {
-        '@type': 'Conversation',
         'title': this.title,
         'text': this.text
       }
-      createContent(this.containerUrl, data).then((res) => {
-        if (res.status === 201) {
-          this.title = ''
-          this.text = ''
-          let newConversationUrl = res.headers.location
-          let newConversationId = url2id(newConversationUrl)
-          this.$emit('conversation-created', newConversationId)
-        }
-        this.isSubmitting = false
-      })
+
+      if (this.url != false) {
+        updateContent(this.url, data).then((res) => {
+          if (res.status === 204) {
+            this.title = ''
+            this.text = ''
+            let newConversationId = url2id(this.url)
+            this.$emit('conversation-updated', newConversationId)
+          }
+          this.isSubmitting = false
+        })
+      } else {
+        data['@type'] = 'Conversation'
+        createContent(this.containerUrl, data).then((res) => {
+          if (res.status === 201) {
+            this.title = ''
+            this.text = ''
+            let newConversationUrl = res.headers.location
+            let newConversationId = url2id(newConversationUrl)
+            this.$emit('conversation-created', newConversationId)
+          }
+          this.isSubmitting = false
+        })
+      }
     }
   },
   mounted () {
+    if (this.isEmbedded != null) this.embedded = this.isEmbedded
+
+    /* edit an existing conversation */
+    if (this.conversationUrl != null) {
+      this.formTitle = 'Unterhaltung bearbeiten'
+      this.url = this.conversationUrl
+      readContent(this.conversationUrl).then((res) => {
+        this.title = res.title
+        this.text = res.text.data
+      })
+    } else {
+      /* create a new conversation */
+      this.formTitle = 'Neue Unterhaltung aufmachen'
+      this.url = false
+    }
     this.containerUrl = this.topicUrl
   },
 }
