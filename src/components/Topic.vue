@@ -156,16 +156,18 @@ export default {
 .list-group-item.conversation i.comments,
 .list-group-item.conversation i.newest-comment {
   color: black;
-  float: right;
+  display: block;
   font-size: 80%;
   font-style: italic;
   line-height: 24px;
+  text-align: right;
 }
 
 @media (max-width: 767px) {
   .list-group-item.conversation i.comments,
   .list-group-item.conversation i.newest-comment {
-    float: left;
+    display: inline;
+    text-align: left;
   }
   .list-group-item.conversation i.comments::after {
     content: '-';
