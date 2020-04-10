@@ -11,7 +11,7 @@
         :text="`Eingeloggt als ${username}`"
         variant="default">
         <b-dropdown-item href="#/profile">
-          Meine Beiträge
+          <font-awesome-icon icon="comments"/> Meine Beiträge
         </b-dropdown-item>
         <b-dropdown-item @click="handleLogout">
           <font-awesome-icon icon="sign-out-alt"/> Ausloggen
@@ -138,5 +138,9 @@ body > div {
 
 #app .logo {
   width: 200px;
+}
+
+#app .dropdown-item.active, .dropdown-item:active {
+  color: white !important;
 }
 </style>
