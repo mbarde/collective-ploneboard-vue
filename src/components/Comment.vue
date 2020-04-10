@@ -184,7 +184,7 @@ export default {
 
 @keyframes highlight-new {
   from {
-    background-color: #073F8B;
+    background-color: var(--primary);
     color: white;
   }
   to {

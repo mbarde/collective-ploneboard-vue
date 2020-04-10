@@ -126,7 +126,7 @@ body > div {
 }
 
 #app a {
-  color: #073F8B;
+  color: var(--primary);
 }
 
 #app a.btn-primary {

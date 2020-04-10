@@ -50,11 +50,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .nav-container {
-  border-bottom: 4px solid #073F8B;
-  border-top: 4px solid #073F8B;
+  border-bottom: 4px solid var(--primary);
+  border-top: 4px solid var(--primary);
 }
 .nav .nav-item {
-  color: #073F8B;
+  color: var(--primary);
   display: flex;
 }
 
