@@ -29,15 +29,38 @@ export default {
       return absolutePath.replace(BASE_URL, '')
     },
     update () {
+      this.navItems = [{
+        title: 'Start',
+        path: '/'
+      }]
+
+      if (this.$route.path == '/login') {
+        this.navItems.push({
+          title: 'Login',
+          path: '/login'
+        })
+        return
+      }
+
+      if (this.$route.path == '/profile') {
+        this.navItems.push({
+          title: 'Meine Beiträge',
+          path: '/profile'
+        })
+        return
+      }
+
+      /* otherwise automatically create breadcrumbs */
       const url = this.$route.path + '/@breadcrumbs'
       readContent(url).then((res) => {
-        this.navItems = []
-        res.items.forEach((item) => {
-          this.navItems.push({
-            title: item.title,
-            path: this.absoluteToRelativePath(item['@id'])
+        if (res.items != undefined) {
+          res.items.forEach((item) => {
+            this.navItems.push({
+              title: item.title,
+              path: this.absoluteToRelativePath(item['@id'])
+            })
           })
-        })
+        }
       })
     }
   },
@@ -47,7 +70,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .nav-container {
   border-bottom: 4px solid var(--primary);
