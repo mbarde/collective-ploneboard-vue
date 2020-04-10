@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col>
+      <b-col v-if="initialized">
         <h3>{{title}}</h3>
         <p v-html="html"></p>
         <b-btn v-if="isLoggedIn"
@@ -14,6 +14,10 @@
                variant="primary">
           <font-awesome-icon icon="sign-in-alt"/> Anmelden
         </b-btn>
+      </b-col>
+      <b-col v-else cols="12" class="text-center">
+        <br/><br/>
+        <b-spinner label="Loading..." type="grow"></b-spinner>
       </b-col>
     </b-row>
   </b-container>
@@ -30,14 +34,17 @@ export default {
       title: '',
       html: '',
       isLoggedIn: false,
+      initialized: false,
     }
   },
   methods: {
   },
   mounted () {
+    this.initialized = false
     readStaticPage('welcome').then((res) => {
       this.title = res.title
       this.html = res.text.data
+      this.initialized = true
     })
 
     this.isLoggedIn = isLoggedIn()
