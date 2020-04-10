@@ -6,7 +6,9 @@
           <font-awesome-icon icon="comments"/>
           Meine Unterhaltungen ({{conversations.length}})
         </h4>
-        <b-list-group class="mb-3">
+        <b-list-group
+          v-if="initializedConversations"
+          class="mb-3">
           <b-list-group-item
             v-for="conversation in conversations"
             :key="conversation['@id']"
@@ -17,11 +19,18 @@
             </small>
           </b-list-group-item>
         </b-list-group>
+        <b-col v-else cols="12" class="text-center">
+          <br/><br/>
+          <b-spinner label="Loading..." type="grow"></b-spinner>
+        </b-col>
+
         <h4>
           <font-awesome-icon icon="comment"/>
           Meine Kommentare ({{comments.length}})
         </h4>
-        <b-list-group class="mb-3">
+        <b-list-group
+          v-if="initializedComments"
+          class="mb-3">
           <b-list-group-item
             v-for="comment in comments"
             :key="comment['@id']"
@@ -32,6 +41,10 @@
             </small>
           </b-list-group-item>
         </b-list-group>
+        <b-col v-else cols="12" class="text-center">
+          <br/><br/>
+          <b-spinner label="Loading..." type="grow"></b-spinner>
+        </b-col>
       </b-col>
     </b-row>
   </b-container>
@@ -49,6 +62,8 @@ export default {
     return {
       comments: [],
       conversations: [],
+      initializedComments: false,
+      initializedConversations: false,
     }
   },
   methods: {
@@ -87,10 +102,22 @@ export default {
   },
   mounted () {
     let userId = getUserId()
+
+    this.initializedComments = false
     this.readContents(userId, 'Discussion Item')
-      .then((items) => { this.comments = items })
+      .then((items) => {
+        this.comments = items
+        this.initializedComments = true
+      }
+    )
+
+    this.initializedConversations
     this.readContents(userId, 'Conversation')
-      .then((items) => { this.conversations = items })
+      .then((items) => {
+        this.conversations = items
+        this.initializedConversations = true
+      }
+    )
   },
 }
 </script>
