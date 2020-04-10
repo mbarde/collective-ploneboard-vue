@@ -66,9 +66,9 @@ export default {
       if (this.isLoggedIn) this.username = getUsername()
     },
     accessControl () {
-      if (this.$route.path != '/'
-          && this.$route.path != '/login'
-          && !this.isLoggedIn)
+      if (!this.isLoggedIn
+          && this.$route.path != '/'
+          && this.$route.path != '/login')
       {
         sessionStorage.setItem(SESS_GOTO_AFTER_LOGIN, this.$route.path)
         this.$router.push('/login')
