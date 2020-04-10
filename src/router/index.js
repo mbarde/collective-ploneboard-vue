@@ -4,6 +4,7 @@ import Conversation from '@/components/Conversation'
 import Login from '@/components/Login'
 import MessageBoard from '@/components/MessageBoard'
 import Topic from '@/components/Topic'
+import UserContent from '@/components/UserContent'
 import Welcome from '@/components/Welcome'
 
 Vue.use(Router)
@@ -19,6 +20,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/profile',
+      name: 'UserContent',
+      component: UserContent
     },
     {
       path: '/:boardId',

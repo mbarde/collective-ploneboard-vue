@@ -1,3 +1,10 @@
+export function dict2querystr (params) {
+  let data = Object.entries(params)
+  data = data.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+  let query = data.join('&')
+  return query
+}
+
 export function mail2userid (mail) {
   return mail.split('@')[0]
 }

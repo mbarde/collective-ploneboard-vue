@@ -154,6 +154,15 @@ export default {
           setTimeout(() => {
             this.$scrollTo(`#comment-${newCommentId}`)
           }, 0)
+        } else {
+          /* c as query parameter indicates to scroll to specified comment;
+             usage: ?c=commentid */
+          let scrollToCommentId = this.$route.query.c
+          if (scrollToCommentId != undefined) {
+            setTimeout(() => {
+              this.$scrollTo(`#comment-${scrollToCommentId}`)
+            }, 0)
+          }
         }
       })
     },
