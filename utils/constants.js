@@ -6,4 +6,5 @@ module.exports = {
   LS_KEY_USER_IS_ADMIN: 'userIsAdmin',
   // sessionStorage keys
   SESS_PREFIX_CACHED: 'cached_',
+  SESS_GOTO_AFTER_LOGIN: 'redirectto',
 }

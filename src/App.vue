@@ -26,6 +26,7 @@
 
 <script>
 import { getUsername, isLoggedIn, logout } from '../utils/auth.js'
+import { SESS_GOTO_AFTER_LOGIN } from '../utils/constants.js'
 import AppFooter from '@/components/AppFooter'
 import NavBar from '@/components/NavBar'
 
@@ -37,6 +38,7 @@ export default {
   },
   watch: {
     $route() {
+      this.accessControl()
       this.$refs.navbar.update()
     }
   },
@@ -62,10 +64,20 @@ export default {
     updateIsLoggedIn () {
       this.isLoggedIn = isLoggedIn()
       if (this.isLoggedIn) this.username = getUsername()
+    },
+    accessControl () {
+      if (this.$route.path != '/'
+          && this.$route.path != '/login'
+          && !this.isLoggedIn)
+      {
+        sessionStorage.setItem(SESS_GOTO_AFTER_LOGIN, this.$route.path)
+        this.$router.push('/login')
+      }
     }
   },
   mounted () {
     this.updateIsLoggedIn()
+    this.accessControl()
   }
 }
 </script>

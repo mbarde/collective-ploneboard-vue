@@ -31,6 +31,7 @@
 
 <script>
 import { isLoggedIn, setUsername, setUserId } from '../../utils/auth'
+import { SESS_GOTO_AFTER_LOGIN } from '../../utils/constants.js'
 import { login, readContent, readStaticPage } from '../../utils/plone-api'
 import { mail2userid } from '../../utils/tools'
 
@@ -60,16 +61,22 @@ export default {
             setUserId(res.id)
             setUsername(fullname)
             this.$emit('logged-state-changed')
-            this.$router.push('/')
+            this.afterLogin()
           })
         }
       })
     },
+    afterLogin () {
+      let nextLocation = sessionStorage.getItem(SESS_GOTO_AFTER_LOGIN)
+      if (nextLocation === undefined || nextLocation.length === 0) {
+        nextLocation = '/'
+      }
+      this.$router.push(nextLocation)
+      sessionStorage.setItem(SESS_GOTO_AFTER_LOGIN, '')
+    }
   },
   mounted () {
-    if (isLoggedIn()) {
-      this.$router.push('/')
-    }
+    if (isLoggedIn()) this.afterLogin()
     readStaticPage('signin').then((res) => {
       this.title = res.title
       this.html = res.text.data
