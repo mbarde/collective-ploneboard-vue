@@ -11,15 +11,24 @@
               v-for="conversation in conversations"
               :key="conversation['@id']"
               :href="getConversationUrl(conversation)">
-                {{conversation.title}}
-                <i class="comments">{{conversation.comment_count}} Kommentare</i>
-                <br/>
-                <i class="author">von {{conversation.author}} </i>
-                <i class="date">({{conversation.modified_string}})</i>
-                <i class="newest-comment"
-                   v-if="conversation.comments_modified_string">
-                   letzter: {{conversation.comments_modified_string}}
-                </i>
+              <b-row>
+                <b-col cols="12" md="8">
+                  {{conversation.title}}
+                  <br/>
+                  <i class="author">von {{conversation.author}} </i>
+                  <i class="date">({{conversation.modified_string}})</i>
+                </b-col>
+                <b-col cols="12" md="4">
+                  <i class="comments">
+                    {{conversation.comment_count}}
+                    {{conversation.comment_count > 1 ? 'Kommentare' : 'Kommentar'}}
+                  </i>
+                  <i class="newest-comment"
+                     v-if="conversation.comments_modified_string">
+                     letzter: {{conversation.comments_modified_string}}
+                  </i>
+                </b-col>
+              </b-row>
             </b-list-group-item>
           </b-list-group>
 
@@ -146,8 +155,21 @@ export default {
 }
 .list-group-item.conversation i.comments,
 .list-group-item.conversation i.newest-comment {
+  color: black;
   float: right;
   font-size: 80%;
   font-style: italic;
+  line-height: 24px;
+}
+
+@media (max-width: 767px) {
+  .list-group-item.conversation i.comments,
+  .list-group-item.conversation i.newest-comment {
+    float: left;
+  }
+  .list-group-item.conversation i.comments::after {
+    content: '-';
+    margin-right: 3px;
+  }
 }
 </style>
