@@ -19,14 +19,25 @@
                   <i class="date">({{conversation.modified_string}})</i>
                 </b-col>
                 <b-col cols="12" md="4">
-                  <i class="comments">
+                  <span class="d-none d-md-inline">
+                    <i class="comments">
+                      {{conversation.comment_count}}
+                        {{conversation.comment_count > 1 ? 'Kommentare' : 'Kommentar'}}
+                    </i>
+                    <i class="newest-comment"
+                       v-if="conversation.comments_modified_string">
+                       letzter: {{conversation.comments_modified_string}}
+                    </i>
+                  </span>
+                  <span class="d-xs-inline d-sm-inline d-md-none comments-mobile">
+                    <font-awesome-icon icon="comment"/>
                     {{conversation.comment_count}}
-                    {{conversation.comment_count > 1 ? 'Kommentare' : 'Kommentar'}}
-                  </i>
-                  <i class="newest-comment"
-                     v-if="conversation.comments_modified_string">
-                     letzter: {{conversation.comments_modified_string}}
-                  </i>
+                    <span v-if="conversation.comments_modified_string"
+                          class="ml-2">
+                      <font-awesome-icon icon="clock"/>
+                      {{conversation.comments_modified_string}}
+                    </span>
+                  </span>
                 </b-col>
               </b-row>
             </b-list-group-item>
@@ -165,15 +176,11 @@ export default {
   text-align: right;
 }
 
-@media (max-width: 767px) {
-  .list-group-item.conversation i.comments,
-  .list-group-item.conversation i.newest-comment {
-    display: inline;
-    text-align: left;
-  }
-  .list-group-item.conversation i.comments::after {
-    content: '-';
-    margin-right: 3px;
-  }
+.list-group-item.conversation span.comments-mobile {
+  color: black;
+  font-size: 80%;
+  font-style: italic;
 }
+
+
 </style>
