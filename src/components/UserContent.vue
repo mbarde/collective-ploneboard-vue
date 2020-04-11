@@ -52,9 +52,10 @@
 
 <script>
 import moment from 'moment'
-import { getUserId } from '../../utils/auth.js'
-import { BASE_URL, readContent } from '../../utils/plone-api.js'
-import { dict2querystr } from '../../utils/tools.js'
+import { getUserId } from '../../utils/auth'
+import { BASE_URL } from '../../utils/constants'
+import { readContent } from '../../utils/plone-api'
+import { dict2querystr } from '../../utils/tools'
 
 export default {
   name: 'UserContent',

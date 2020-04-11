@@ -1,4 +1,8 @@
 module.exports = {
+  // installation specific constants
+  BASE_URL: 'https://cms8.uni-koblenz.de/ErstiForum',
+  MESSAGE_BOARD_ID: 'forum',
+  STATIC_PAGES_PATH: '/pages',
   // localStorage keys
   LS_KEY_TOKEN: 'token',
   LS_KEY_USERID: 'userid',

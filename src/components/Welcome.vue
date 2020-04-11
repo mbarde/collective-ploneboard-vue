@@ -5,7 +5,7 @@
         <h3>{{title}}</h3>
         <p v-html="html"></p>
         <b-btn v-if="isLoggedIn"
-               href="#/forum"
+               :href="`#/${MESSAGE_BOARD_ID}`"
                variant="primary">
           <font-awesome-icon icon="comments"/> Zum Forum
         </b-btn>
@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import { isLoggedIn } from '../../utils/auth.js'
-import { readStaticPage } from '../../utils/plone-api.js'
+import { isLoggedIn } from '../../utils/auth'
+import { MESSAGE_BOARD_ID } from '../../utils/constants'
+import { readStaticPage } from '../../utils/plone-api'
 
 export default {
   name: 'Welcome',
@@ -35,6 +36,7 @@ export default {
       html: '',
       isLoggedIn: false,
       initialized: false,
+      MESSAGE_BOARD_ID: MESSAGE_BOARD_ID,
     }
   },
   methods: {

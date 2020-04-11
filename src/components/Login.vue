@@ -35,7 +35,7 @@
 
 <script>
 import { isLoggedIn, setUsername, setUserId } from '../../utils/auth'
-import { SESS_GOTO_AFTER_LOGIN } from '../../utils/constants.js'
+import { MESSAGE_BOARD_ID, SESS_GOTO_AFTER_LOGIN } from '../../utils/constants.js'
 import { login, readContent, readStaticPage } from '../../utils/plone-api'
 import { mail2userid } from '../../utils/tools'
 
@@ -73,7 +73,7 @@ export default {
     afterLogin () {
       let nextLocation = sessionStorage.getItem(SESS_GOTO_AFTER_LOGIN)
       if (nextLocation === undefined || nextLocation.length === 0) {
-        nextLocation = '/forum'
+        nextLocation = '/' + MESSAGE_BOARD_ID
       }
       this.$router.push(nextLocation)
       sessionStorage.setItem(SESS_GOTO_AFTER_LOGIN, '')
