@@ -53,7 +53,7 @@
                @click="deleteComment()"
                :disabled="isSubmitting">
            <b-spinner small v-if="isSubmitting"></b-spinner>
-           <font-awesome-icon icon="trash"/> Löschen
+           <font-awesome-icon icon="trash" v-if="!isSubmitting"/> Löschen
         </b-btn>
         <b-btn squared variant="secondary"
                style="flex: auto"
