@@ -13,13 +13,15 @@ Vue.use(VueScrollTo, {
 })
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faComment, faComments, faEdit, faSignInAlt, faSignOutAlt, faTrash, faUser
+import { faComment, faComments, faEdit, faHome,
+         faSignInAlt, faSignOutAlt, faTrash, faUser
        } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faComment)
 library.add(faComments)
 library.add(faEdit)
+library.add(faHome)
 library.add(faSignInAlt)
 library.add(faSignOutAlt)
 library.add(faTrash)

@@ -20,7 +20,10 @@
     </b-container>
     <nav-bar ref="navbar"></nav-bar>
     <div class="content">
-      <router-view v-on:logged-state-changed="onLoggedStateChanged()"/>
+      <router-view
+        v-on:content-not-found="on404()"
+        v-on:logged-state-changed="onLoggedStateChanged()"
+      />
     </div>
     <br/>
     <app-footer></app-footer>
@@ -52,6 +55,9 @@ export default {
     }
   },
   methods: {
+    on404 () {
+      this.$router.push('/404')
+    },
     onLoggedStateChanged () {
       this.updateIsLoggedIn()
     },

@@ -196,6 +196,8 @@ export default {
 
         let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
         this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
+      }).catch(() => {
+        this.$emit('content-not-found')
       })
       this.loadComments(false)
     }

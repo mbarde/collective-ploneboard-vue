@@ -67,6 +67,8 @@ export default {
       Promise.all(promises).then(() => {
         this.initialized = true
       })
+    }).catch(() => {
+      this.$emit('content-not-found')
     })
   },
 }

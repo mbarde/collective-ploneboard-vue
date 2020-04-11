@@ -142,6 +142,8 @@ export default {
           return a.comments_modified < b.comments_modified
         })
       })
+    }).catch(() => {
+      this.$emit('content-not-found')
     })
   },
 }
