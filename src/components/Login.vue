@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col>
+      <b-col v-if="title.length > 0">
           <h3>{{title}}</h3>
           <p v-if="html.length > 0" v-html="html"></p>
           <b-alert v-if="errMsg.length > 0" v-html="errMsg"
@@ -24,6 +24,10 @@
             <b-spinner small v-if="tryingLogin"></b-spinner>
             <font-awesome-icon v-if="!tryingLogin" icon="sign-in-alt"/> Login
           </button>
+      </b-col>
+      <b-col v-else class="text-center">
+        <br/><br/>
+        <b-spinner label="Loading..." type="grow"></b-spinner>
       </b-col>
     </b-row>
   </b-container>
@@ -69,7 +73,7 @@ export default {
     afterLogin () {
       let nextLocation = sessionStorage.getItem(SESS_GOTO_AFTER_LOGIN)
       if (nextLocation === undefined || nextLocation.length === 0) {
-        nextLocation = '/'
+        nextLocation = '/forum'
       }
       this.$router.push(nextLocation)
       sessionStorage.setItem(SESS_GOTO_AFTER_LOGIN, '')
