@@ -2,6 +2,9 @@
   <div class="nav-container mb-3 mt-3" fluid>
     <b-container>
       <b-nav>
+        <b-nav-item href="#/">
+          <font-awesome-icon icon="home"/>
+        </b-nav-item>
         <b-nav-item
           v-for="(item, index) in navItems"
           :key="index"
@@ -15,7 +18,8 @@
 </template>
 
 <script>
-import { BASE_URL, readContent } from '../../utils/plone-api.js'
+import { BASE_URL } from '../../utils/constants'
+import { readContent } from '../../utils/plone-api'
 
 export default {
   name: 'NavBar',
@@ -29,10 +33,7 @@ export default {
       return absolutePath.replace(BASE_URL, '')
     },
     update () {
-      this.navItems = [{
-        title: 'Start',
-        path: '/'
-      }]
+      this.navItems = []
 
       if (this.$route.path == '/login') {
         this.navItems.push({
