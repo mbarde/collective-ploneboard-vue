@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import { readContent } from '../../utils/plone-api.js'
-import { url2id } from '../../utils/tools.js'
+import { readContent } from '../../utils/plone-api'
+import { url2id } from '../../utils/tools'
 
 export default {
   name: 'MessageBoard',

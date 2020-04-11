@@ -66,8 +66,8 @@
 <script>
 import CommentForm from '@/components/CommentForm'
 import moment from 'moment'
-import { deleteContent } from '../../utils/plone-api.js'
-import { mail2userid, nl2br } from '../../utils/tools.js'
+import { deleteContent } from '../../utils/plone-api'
+import { mail2userid, nl2br } from '../../utils/tools'
 
 export default {
   name: 'Comment',

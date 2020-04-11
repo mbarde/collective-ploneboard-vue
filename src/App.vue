@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { getUsername, isLoggedIn, logout } from '../utils/auth.js'
-import { SESS_GOTO_AFTER_LOGIN } from '../utils/constants.js'
+import { getUsername, isLoggedIn, logout } from '../utils/auth'
+import { SESS_GOTO_AFTER_LOGIN } from '../utils/constants'
 import AppFooter from '@/components/AppFooter'
 import NavBar from '@/components/NavBar'
 

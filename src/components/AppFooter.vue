@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { readStaticPage } from '../../utils/plone-api.js'
+import { readStaticPage } from '../../utils/plone-api'
 
 export default {
   name: 'AppFooter',

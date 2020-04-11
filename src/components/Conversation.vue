@@ -99,9 +99,9 @@ import Comment from '@/components/Comment'
 import CommentForm from '@/components/CommentForm'
 import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
-import { getUsername } from '../../utils/auth.js'
-import { readContent } from '../../utils/plone-api.js'
-import { mail2userid, nl2br } from '../../utils/tools.js'
+import { getUsername } from '../../utils/auth'
+import { readContent } from '../../utils/plone-api'
+import { mail2userid, nl2br } from '../../utils/tools'
 
 export default {
   name: 'Conversation',

@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { createContent, readContent, updateContent } from '../../utils/plone-api.js'
-import { url2id } from '../../utils/tools.js'
+import { createContent, readContent, updateContent } from '../../utils/plone-api'
+import { url2id } from '../../utils/tools'
 
 export default {
   name: 'ConversationForm',

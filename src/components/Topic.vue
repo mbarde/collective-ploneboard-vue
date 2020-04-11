@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { readContent } from '../../utils/plone-api.js'
-import { mail2userid, url2id } from '../../utils/tools.js'
+import { readContent } from '../../utils/plone-api'
+import { mail2userid, url2id } from '../../utils/tools'
 import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
 

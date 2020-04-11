@@ -35,7 +35,7 @@
 
 <script>
 import { isLoggedIn, setUsername, setUserId } from '../../utils/auth'
-import { MESSAGE_BOARD_ID, SESS_GOTO_AFTER_LOGIN } from '../../utils/constants.js'
+import { MESSAGE_BOARD_ID, SESS_GOTO_AFTER_LOGIN } from '../../utils/constants'
 import { login, readContent, readStaticPage } from '../../utils/plone-api'
 import { mail2userid } from '../../utils/tools'
 
