@@ -2,7 +2,7 @@
   <div class="nav-container mb-3 mt-3" fluid>
     <b-container>
       <b-nav>
-        <b-nav-item href="#/">
+        <b-nav-item href="#/" class="d-none d-sm-flex">
           <font-awesome-icon icon="home"/>
         </b-nav-item>
         <b-nav-item
@@ -81,8 +81,16 @@ export default {
   display: flex;
 }
 
-.nav .nav-item::after {
+@media (max-width: 575px) {
+  .nav .nav-item {
+    width: 100%;
+  }
+}
+
+.nav .nav-item::before {
   content: '>';
+  margin-left: -5px;
+  margin-right: -5px;
   margin-top: 8px;
 }
 
@@ -90,7 +98,7 @@ export default {
   padding-left: 0;
 }
 
-.nav .nav-item:last-child::after {
+.nav .nav-item:first-child::before {
   content: '';
 }
 </style>

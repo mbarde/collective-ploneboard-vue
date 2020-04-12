@@ -181,6 +181,4 @@ export default {
   font-size: 80%;
   font-style: italic;
 }
-
-
 </style>
