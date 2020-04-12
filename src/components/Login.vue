@@ -71,7 +71,7 @@ export default {
       })
     },
     afterLogin () {
-      let nextLocation = sessionStorage.getItem(SESS_GOTO_AFTER_LOGIN)
+      let nextLocation = sessionStorage.getItem(SESS_GOTO_AFTER_LOGIN) || ''
       if (nextLocation === undefined || nextLocation.length === 0) {
         nextLocation = '/' + MESSAGE_BOARD_ID
       }
