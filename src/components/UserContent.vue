@@ -18,6 +18,9 @@
               {{conversation.modifiedStr}}
             </small>
           </b-list-group-item>
+          <p v-if="initializedConversations && conversations.length === 0">
+            Noch keine Unterhaltung angelegt.
+          </p>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
@@ -40,6 +43,9 @@
               {{comment.modifiedStr}}
             </small>
           </b-list-group-item>
+          <p v-if="initializedComments && comments.length === 0">
+            Noch keine Kommentare verfasst.
+          </p>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
