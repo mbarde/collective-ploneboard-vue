@@ -3,6 +3,9 @@ module.exports = {
   BASE_URL: 'https://cms8.uni-koblenz.de/ErstiForum',
   MESSAGE_BOARD_ID: 'forum',
   STATIC_PAGES_PATH: '/pages',
+  // maxiumum character count of
+  // description texts in overviews
+  MAX_DESCRIPTION_LENGTH: 150,
   // localStorage keys
   LS_KEY_TOKEN: 'token',
   LS_KEY_USERID: 'userid',

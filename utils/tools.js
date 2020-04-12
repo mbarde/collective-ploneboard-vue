@@ -5,6 +5,14 @@ export function dict2querystr (params) {
   return query
 }
 
+export function extractFirstSentence (text) {
+  let firstDotIndex = text.indexOf('. ')
+  if (firstDotIndex > -1 && firstDotIndex < text.length - 1) {
+    return text.slice(0, firstDotIndex + 1)
+  }
+  return text
+}
+
 export function mail2userid (mail) {
   return mail.split('@')[0]
 }

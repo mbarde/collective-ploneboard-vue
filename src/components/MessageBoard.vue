@@ -12,7 +12,7 @@
             :key="topic['@id']"
             :href="getTopicUrl(topic)">
               <h4>{{topic.title}}</h4>
-              {{topic.description}}
+              {{getTopicDescription(topic)}}
               <i>{{topic.conversation_count}} Unterhaltungen</i>
           </b-list-group-item>
         </b-list-group>
@@ -26,8 +26,9 @@
 </template>
 
 <script>
+import { MAX_DESCRIPTION_LENGTH } from '../../utils/constants'
 import { readContent } from '../../utils/plone-api'
-import { url2id } from '../../utils/tools'
+import { extractFirstSentence, url2id } from '../../utils/tools'
 
 export default {
   name: 'MessageBoard',
@@ -44,6 +45,16 @@ export default {
     getTopicUrl (topic) {
       const topicId = url2id(topic['@id'])
       return `#/${this.id}/${topicId}`
+    },
+    getTopicDescription (topic) {
+      let description = topic.description
+      description = extractFirstSentence(description)
+      if (description.length > MAX_DESCRIPTION_LENGTH) {
+        description = description.slice(
+          0, MAX_DESCRIPTION_LENGTH
+        ) + ' [...]'
+      }
+      return description
     }
   },
   mounted () {
