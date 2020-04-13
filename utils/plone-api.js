@@ -52,24 +52,28 @@ function readContent (path, allowCaching = false) {
       }
     }
   }
-  return axios.get(url, { headers: {'Accept': 'application/json', Authorization: `Bearer ${getToken()}` } })
-              .then(
-                (response) => {
-                  if (allowCaching) {
-                    try {
-                      sessionStorage.setItem(`${SESS_PREFIX_CACHED}${url}`, JSON.stringify(response.data))
-                    } catch(e) {
-                      if (e.code == 22) {
-                        console.warn('Session storage full: Could not cache item')
-                      } else {
-                        console.error(e);
-                      }
-                    }
-                  }
-                  return response.data
-                },
-                (error) => error
-              )
+  return axios.get(url, {
+    headers: {
+      'Accept': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    }})
+    .then(
+      (response) => {
+        if (allowCaching) {
+          try {
+            sessionStorage.setItem(`${SESS_PREFIX_CACHED}${url}`, JSON.stringify(response.data))
+          } catch(e) {
+            if (e.code == 22) {
+              console.warn('Session storage full: Could not cache item')
+            } else {
+              console.error(e);
+            }
+          }
+        }
+        return response.data
+      },
+      (error) => error
+    )
 }
 
 function updateContent (path, data) {
