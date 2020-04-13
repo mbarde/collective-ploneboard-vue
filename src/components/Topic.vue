@@ -3,7 +3,8 @@
     <b-row>
       <b-col>
         <h3>{{title}}</h3>
-        <p v-if="description.length > 0">{{description}}</p>
+        <p v-if="description.length > 0"
+           v-html="description"></p>
         <template v-if="initialized">
           <b-list-group>
             <b-list-group-item
@@ -62,7 +63,7 @@
 
 <script>
 import { readContent } from '../../utils/plone-api'
-import { mail2userid, url2id } from '../../utils/tools'
+import { autoInsertHtmlLinks, mail2userid, url2id } from '../../utils/tools'
 import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
 
@@ -112,7 +113,7 @@ export default {
 
     readContent(this.url).then((res) => {
       this.title = res.title
-      this.description = res.description
+      this.description = autoInsertHtmlLinks(res.description)
       this.conversations = res.items
 
       let promises = []

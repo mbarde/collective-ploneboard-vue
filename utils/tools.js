@@ -1,3 +1,10 @@
+/* https://stackoverflow.com/a/2536034 */
+export function autoInsertHtmlLinks (text) {
+  return text.replace(
+    /(https:\/\/[^\s()!]+)/g,
+    '<a href="$1" target="_blank">$1</a>')
+}
+
 export function dict2querystr (params) {
   let data = Object.entries(params)
   data = data.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)

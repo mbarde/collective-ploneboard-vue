@@ -3,9 +3,8 @@
     <b-row>
       <b-col>
         <h3>{{title}}</h3>
-        <p v-if="description.length > 0">
-          {{description}}
-        </p>
+        <p v-if="description.length > 0"
+           v-html="description"></p>
         <b-list-group v-if="initialized">
           <b-list-group-item class="topic"
             v-for="topic in topics"
@@ -28,7 +27,7 @@
 <script>
 import { MAX_DESCRIPTION_LENGTH } from '../../utils/constants'
 import { readContent } from '../../utils/plone-api'
-import { extractFirstSentence, url2id } from '../../utils/tools'
+import { autoInsertHtmlLinks, extractFirstSentence, url2id } from '../../utils/tools'
 
 export default {
   name: 'MessageBoard',
@@ -62,7 +61,7 @@ export default {
     readContent(url).then((res) => {
       this.id = res.id
       this.title = res.title
-      this.description = res.description
+      this.description = autoInsertHtmlLinks(res.description)
       this.topics = res.items
 
       /* get conversation count of each topic */
