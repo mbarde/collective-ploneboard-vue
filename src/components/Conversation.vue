@@ -174,7 +174,7 @@ export default {
           break
         }
       }
-      if (found != false) this.comments.splice(found, 1)
+      if (found !== false) this.comments.splice(found, 1)
     },
     onConversationUpdated () {
       this.isSubmitting = false
