@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col>
-        <h1>{{title}}</h1>
+        <h3>{{title}}</h3>
         <p v-if="description.length > 0">{{description}}</p>
         <template v-if="initialized">
           <b-list-group>
