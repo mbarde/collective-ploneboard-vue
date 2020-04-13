@@ -32,6 +32,12 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
+/* set withCredentials parameter globally to
+   ensure cookies are send to backend
+   (needed for sticky session load balancing) */
+import axios from 'axios'
+axios.defaults.withCredentials = true
+
 new Vue({
   render: h => h(App),
   router,
