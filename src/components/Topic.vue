@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { AUTO_FORMAT_LINKS } from '../../utils/constants'
 import { readContent } from '../../utils/plone-api'
 import { autoInsertHtmlLinks, mail2userid, url2id } from '../../utils/tools'
 import ConversationForm from '@/components/ConversationForm'
@@ -113,7 +114,11 @@ export default {
 
     readContent(this.url).then((res) => {
       this.title = res.title
-      this.description = autoInsertHtmlLinks(res.description)
+      if (AUTO_FORMAT_LINKS === true) {
+        this.description = autoInsertHtmlLinks(res.description)
+      } else {
+        this.description = res.description
+      }
       this.conversations = res.items
 
       let promises = []

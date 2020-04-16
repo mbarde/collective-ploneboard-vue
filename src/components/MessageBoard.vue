@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { MAX_DESCRIPTION_LENGTH } from '../../utils/constants'
+import { AUTO_FORMAT_LINKS, MAX_DESCRIPTION_LENGTH } from '../../utils/constants'
 import { readContent } from '../../utils/plone-api'
 import { autoInsertHtmlLinks, extractFirstSentence, url2id } from '../../utils/tools'
 
@@ -61,7 +61,11 @@ export default {
     readContent(url).then((res) => {
       this.id = res.id
       this.title = res.title
-      this.description = autoInsertHtmlLinks(res.description)
+      if (AUTO_FORMAT_LINKS === true) {
+        this.description = autoInsertHtmlLinks(res.description)
+      } else {
+        this.description = res.description
+      }
       this.topics = res.items
 
       /* get conversation count of each topic */

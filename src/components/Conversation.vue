@@ -8,7 +8,7 @@
             <font-awesome-icon icon="edit"/> Bearbeiten
           </a>
           <b-card-text
-            v-html="formatConversationText(text)"
+            v-html="text2html(text)"
             class="mt-4">
           </b-card-text>
         </b-card>
@@ -103,6 +103,7 @@ import CommentForm from '@/components/CommentForm'
 import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
 import { getUsername } from '../../utils/auth'
+import { AUTO_FORMAT_LINKS } from '../../utils/constants'
 import { readContent } from '../../utils/plone-api'
 import { autoInsertHtmlLinks, mail2userid, nl2br } from '../../utils/tools'
 
@@ -185,8 +186,10 @@ export default {
       modal.hide()
       this.loadData()
     },
-    formatConversationText (str) {
-      return autoInsertHtmlLinks(nl2br(str))
+    text2html (str) {
+      let html = nl2br(str)
+      if (AUTO_FORMAT_LINKS === true) html = autoInsertHtmlLinks(html)
+      return html
     },
     loadData () {
       this.initialized = false
