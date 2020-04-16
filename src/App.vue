@@ -100,11 +100,6 @@ export default {
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
-@font-face {
-  font-family: 'Raleway';
-  src: url('./assets/Raleway-Regular.ttf') format('truetype');
-}
-
 html {
   height: 100%;
 }
@@ -127,7 +122,8 @@ body > div {
 }
 
 #app {
-  font-family: Raleway, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--primary-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: black;

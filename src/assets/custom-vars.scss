@@ -1,4 +1,16 @@
 $theme-colors: (
+  /* primary theme color */
   "primary": #073F8B,
 );
+
+/* round theme or not? */
 $enable-rounded: false;
+
+/* default font face */
+@font-face {
+  font-family: 'Raleway';
+  src: url('./assets/Raleway-Regular.ttf') format('truetype');
+}
+:root {
+  --primary-font: 'Raleway';
+}
