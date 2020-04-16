@@ -50,7 +50,7 @@ export default {
   methods: {
     validate () {
       if (
-        this.title.trim().length < 0 ||
+        this.title.trim().length == 0 ||
         this.text.trim().length == 0)
       {
         this.errorMessage = this.$t('fill-all-fields')
@@ -63,6 +63,7 @@ export default {
       this.isSubmitting = true
       if (this.validate() === false) {
         this.isSubmitting = false
+        this.$emit('cancel-submit')
         return
       }
 

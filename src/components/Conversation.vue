@@ -28,6 +28,7 @@
             :is-embedded="true"
             :conversation-url="url"
             v-on:conversation-updated="onConversationUpdated"
+            v-on:cancel-submit="cancelSubmit"
           ></conversation-form>
           <template v-slot:modal-footer="{ cancel }">
             <b-btn squared variant="primary"
@@ -148,6 +149,9 @@ export default {
       this.isSubmitting = true
       let form = this.$refs['form-edit-conversation']
       form.submit()
+    },
+    cancelSubmit () {
+      this.isSubmitting = false
     },
     loadComments (newCommentId) {
       this.initialized = false
