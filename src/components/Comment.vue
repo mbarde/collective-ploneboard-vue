@@ -38,7 +38,7 @@
                @click="submitEditForm()"
                :disabled="isSubmitting">
            <b-spinner small v-if="isSubmitting"></b-spinner>
-           Abschicken
+           {{$t('submit')}}
         </b-btn>
         <b-btn squared variant="danger"
                @click="cancel()">Abbrechen</b-btn>

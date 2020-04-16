@@ -22,7 +22,7 @@
            squared class="mt-2" variant="primary"
            :disabled="isSubmitting">
        <b-spinner small v-if="isSubmitting"></b-spinner>
-       Abschicken
+       {{$t('submit')}}
     </b-btn>
   </b-form>
 </template>

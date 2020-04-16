@@ -35,10 +35,10 @@
                    @click="submitConversationForm()"
                    :disabled="isSubmitting">
                <b-spinner small v-if="isSubmitting"></b-spinner>
-               Abschicken
+               {{$t('submit')}}
             </b-btn>
             <b-btn squared variant="danger"
-                   @click="cancel()">{{$('cancel')}}</b-btn>
+                   @click="cancel()">{{$t('cancel')}}</b-btn>
           </template>
         </b-modal>
         <template v-if="initialized">
