@@ -7,7 +7,10 @@
              v-b-modal="'modal-edit-conversation'">
             <font-awesome-icon icon="edit"/> Bearbeiten
           </a>
-          <b-card-text v-html="nl2brLocal(text)" class="mt-4"></b-card-text>
+          <b-card-text
+            v-html="formatConversationText(text)"
+            class="mt-4">
+          </b-card-text>
         </b-card>
         <b-modal
           id="modal-edit-conversation"
@@ -101,7 +104,7 @@ import ConversationForm from '@/components/ConversationForm'
 import moment from 'moment'
 import { getUsername } from '../../utils/auth'
 import { readContent } from '../../utils/plone-api'
-import { mail2userid, nl2br } from '../../utils/tools'
+import { autoInsertHtmlLinks, mail2userid, nl2br } from '../../utils/tools'
 
 export default {
   name: 'Conversation',
@@ -182,8 +185,8 @@ export default {
       modal.hide()
       this.loadData()
     },
-    nl2brLocal (str) {
-      return nl2br(str)
+    formatConversationText (str) {
+      return autoInsertHtmlLinks(nl2br(str))
     },
     loadData () {
       this.initialized = false
