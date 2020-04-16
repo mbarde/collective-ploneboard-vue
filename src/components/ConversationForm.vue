@@ -9,13 +9,13 @@
     </b-alert>
     <div class="form-group">
       <input v-model.lazy="title" name="title"
-        placeholder="Titel"
+        :placeholder="$t('title')"
         class="form-control" type="text"/>
     </div>
     <b-form-textarea
       id="textarea"
       v-model="text"
-      placeholder="Ihr Text ..."
+      :placeholder="$t('your-text')"
       rows="3"
       max-rows="6"></b-form-textarea>
     <b-btn v-if="!embedded"
@@ -23,7 +23,7 @@
            class="mt-2" variant="primary"
            :disabled="isSubmitting">
       <b-spinner small v-if="isSubmitting"></b-spinner>
-      Abschicken
+      {{$t('submit')}}
     </b-btn>
   </b-form>
 </template>
@@ -53,7 +53,7 @@ export default {
         this.title.trim().length < 0 ||
         this.text.trim().length == 0)
       {
-        this.errorMessage = 'Bitte füllen Sie alle Eingabefelder aus!'
+        this.errorMessage = this.$t('fill-all-fields')
         return false
       }
       this.errorMessage = ''
@@ -101,7 +101,7 @@ export default {
 
     /* edit an existing conversation */
     if (this.conversationUrl != null) {
-      this.formTitle = 'Unterhaltung bearbeiten'
+      this.formTitle = this.$t('edit-conversation')
       this.url = this.conversationUrl
       readContent(this.conversationUrl).then((res) => {
         this.title = res.title
@@ -109,7 +109,7 @@ export default {
       })
     } else {
       /* create a new conversation */
-      this.formTitle = 'Neue Unterhaltung aufmachen'
+      this.formTitle = this.$t('add-conversation')
       this.url = false
     }
     this.containerUrl = this.topicUrl

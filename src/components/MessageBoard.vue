@@ -14,13 +14,13 @@
               {{getTopicDescription(topic)}}
               <i>
                 {{topic.conversation_count}}
-                {{topic.conversation_count > 1 ? 'Unterhaltungen' : 'Unterhaltung'}}
+                {{topic.conversation_count > 1 ? $t('conversations') : $t('conversation')}}
               </i>
           </b-list-group-item>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
-          <b-spinner label="Loading..." type="grow"></b-spinner>
+          <b-spinner :label="$t('loading')" type="grow"></b-spinner>
         </b-col>
       </b-col>
     </b-row>

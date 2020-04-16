@@ -4,17 +4,17 @@
       <a href="#/">
         <img class="logo"
              src="./assets/logo.png"
-             alt="Logo Universität Koblenz - Landau"/>
+             alt="Logo"/>
       </a>
       <b-dropdown
         v-if="isLoggedIn" class="float-right"
-        :text="`Eingeloggt als ${username}`"
+        :text="`${$t('logged-in-as')} ${username}`"
         variant="default">
         <b-dropdown-item href="#/profile">
-          <font-awesome-icon icon="comments"/> Meine Beiträge
+          <font-awesome-icon icon="comments"/> {{$t('my-content')}}
         </b-dropdown-item>
         <b-dropdown-item @click="handleLogout">
-          <font-awesome-icon icon="sign-out-alt"/> Ausloggen
+          <font-awesome-icon icon="sign-out-alt"/> {{$t('logout')}}
         </b-dropdown-item>
       </b-dropdown>
     </b-container>

@@ -11,7 +11,7 @@
       </b-col>
       <b-col v-else class="text-center">
         <br/><br/>
-        <b-spinner label="Loading..." type="grow"></b-spinner>
+        <b-spinner :label="$t('loading')" type="grow"></b-spinner>
       </b-col>
     </b-row>
   </b-container>

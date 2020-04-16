@@ -8,13 +8,14 @@
                    show variant="danger"></b-alert>
           <div class="form-group">
             <input v-model.lazy="usermail" name="email"
-                   placeholder="E-Mail Adresse (Universität)"
+                   :placeholder="$t('email')"
                    @keyup.enter="login()"
                    class="form-control" type="email"/>
           </div>
           <div class="form-group">
             <input v-model.lazy="password" name="password"
-                   type="password" placeholder="Passwort"
+                   type="password"
+                   :placeholder="$t('password')"
                    @keyup.enter="login()"
                    class="form-control"/>
           </div>
@@ -22,12 +23,13 @@
                   @click="login()"
                   :disabled="tryingLogin">
             <b-spinner small v-if="tryingLogin"></b-spinner>
-            <font-awesome-icon v-if="!tryingLogin" icon="sign-in-alt"/> Login
+            <font-awesome-icon v-if="!tryingLogin" icon="sign-in-alt"/>
+            {{$t('login')}}
           </button>
       </b-col>
       <b-col v-else class="text-center">
         <br/><br/>
-        <b-spinner label="Loading..." type="grow"></b-spinner>
+        <b-spinner :label="$t('loading')" type="grow"></b-spinner>
       </b-col>
     </b-row>
   </b-container>

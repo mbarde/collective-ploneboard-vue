@@ -8,10 +8,21 @@ module.exports = {
       return args
     })
   },
+
   css: {
     sourceMap: true
   },
+
   publicPath: process.env.NODE_ENV === 'production'
                 ? 'https://www.uni-koblenz-landau.de/ErstiForum/'
                 : '/',
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: false
+    }
+  }
 }

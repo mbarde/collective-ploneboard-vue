@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import BootstrapVue from 'bootstrap-vue'
+import router from './router'
+import i18n from './i18n'
 
 Vue.use(BootstrapVue)
 
@@ -38,7 +39,9 @@ Vue.config.productionTip = false
 import axios from 'axios'
 axios.defaults.withCredentials = true
 
+
 new Vue({
   render: h => h(App),
-  router,
+  i18n,
+  router
 }).$mount('#app')

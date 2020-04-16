@@ -4,7 +4,7 @@
       <b-col>
         <h4>
           <font-awesome-icon icon="comments"/>
-          Meine Unterhaltungen ({{conversations.length}})
+          {{$t('my-conversations')}} ({{conversations.length}})
         </h4>
         <b-list-group
           v-if="initializedConversations"
@@ -19,17 +19,17 @@
             </small>
           </b-list-group-item>
           <p v-if="initializedConversations && conversations.length === 0">
-            Noch keine Unterhaltung angelegt.
+            {{$t('no-conversations-yet')}}
           </p>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
-          <b-spinner label="Loading..." type="grow"></b-spinner>
+          <b-spinner :label="$t('loading')" type="grow"></b-spinner>
         </b-col>
 
         <h4>
           <font-awesome-icon icon="comment"/>
-          Meine Kommentare ({{comments.length}})
+          {{$t('my-comments')}} ({{comments.length}})
         </h4>
         <b-list-group
           v-if="initializedComments"
@@ -44,12 +44,12 @@
             </small>
           </b-list-group-item>
           <p v-if="initializedComments && comments.length === 0">
-            Noch keine Kommentare verfasst.
+            {{$t('no-comments-yet')}}
           </p>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
-          <b-spinner label="Loading..." type="grow"></b-spinner>
+          <b-spinner :label="$t('loading')" type="grow"></b-spinner>
         </b-col>
       </b-col>
     </b-row>
@@ -87,7 +87,7 @@ export default {
           res.items.forEach((item) => {
             item.modified = moment(item.modified)
             item.modifiedStr = item.modified
-             .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+             .format('DD.MM.YYYY - HH:mm') + ' ' + this.$t('o-clock')
           })
           res.items.sort((a, b) => a.modified < b.modified)
           resolve(res.items)

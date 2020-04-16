@@ -5,17 +5,19 @@
         <template v-slot:header>
           <span class="author">
             <font-awesome-icon icon="user" class="mr-1"/>
-            {{author}} sagt:
+            {{author}} {{$t('says')}}:
           </span>
           <span class="date">{{date}}</span>
           <span v-if="deletable || editable" class="tools">
             <a class="delete" v-if="deletable"
                v-b-modal="`modal-delete-${id}`">
-              <font-awesome-icon icon="trash"/> Löschen
+              <font-awesome-icon icon="trash"/>
+              {{$t('delete')}}
             </a>
             <a class="edit" v-if="editable"
                v-b-modal="`modal-edit-${id}`">
-              <font-awesome-icon icon="edit"/> Bearbeiten
+              <font-awesome-icon icon="edit"/>
+              {{$t('edit')}}
             </a>
           </span>
         </template>
@@ -45,19 +47,22 @@
     <b-modal
       :id="`modal-delete-${id}`"
       :ref="`modal-delete-${id}`"
-      title="Kommentar wirklich löschen?">
-      Das kann nicht rückgängig gemacht werden.
+      :title="$t('really-delete-comment')">
+      {{$t('cannot-be-undone')}}
       <template v-slot:modal-footer="{ cancel }">
         <b-btn squared variant="danger"
                style="flex: auto"
                @click="deleteComment()"
                :disabled="isSubmitting">
            <b-spinner small v-if="isSubmitting"></b-spinner>
-           <font-awesome-icon icon="trash" v-if="!isSubmitting"/> Löschen
+           <font-awesome-icon icon="trash" v-if="!isSubmitting"/>
+           {{$t('delete')}}
         </b-btn>
         <b-btn squared variant="secondary"
                style="flex: auto"
-               @click="cancel()">Abbrechen</b-btn>
+               @click="cancel()">
+          {{$t('cancel')}}
+        </b-btn>
       </template>
     </b-modal>
   </b-row>
@@ -122,7 +127,7 @@ export default {
     this.date = moment
       .utc(this.comment.modification_date)
       .local()
-      .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+      .format('DD.MM.YYYY - HH:mm') + ' ' + this.$t('o-clock')
     this.text = this.comment.text.data
     this.editable = this.comment.is_editable
     this.deletable = this.comment.is_deletable

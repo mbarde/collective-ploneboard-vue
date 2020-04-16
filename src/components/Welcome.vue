@@ -7,17 +7,17 @@
         <b-btn v-if="isLoggedIn"
                :href="`#/${MESSAGE_BOARD_ID}`"
                variant="primary">
-          <font-awesome-icon icon="comments"/> Zum Forum
+          <font-awesome-icon icon="comments"/> {{$t('to-forum')}}
         </b-btn>
         <b-btn v-else
                href="#/login"
                variant="primary">
-          <font-awesome-icon icon="sign-in-alt"/> Anmelden
+          <font-awesome-icon icon="sign-in-alt"/> {{$t('login')}}
         </b-btn>
       </b-col>
       <b-col v-else cols="12" class="text-center">
         <br/><br/>
-        <b-spinner label="Loading..." type="grow"></b-spinner>
+        <b-spinner :label="$t('loading')" type="grow"></b-spinner>
       </b-col>
     </b-row>
   </b-container>

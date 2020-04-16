@@ -54,7 +54,7 @@
 
         <b-col v-else cols="12" class="text-center">
           <br/><br/>
-          <b-spinner label="Loading..." type="grow"></b-spinner>
+          <b-spinner :label="$t('loading')" type="grow"></b-spinner>
         </b-col>
       </b-col>
     </b-row>
@@ -128,7 +128,7 @@ export default {
             conversation.author = mail2userid(res.creators.pop())
             conversation.modified = moment(res.modified)
             conversation.modified_string = conversation.modified
-              .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+              .format('DD.MM.YYYY - HH:mm') + ' ' + this.$t('o-clock')
             resolve()
           })
         }))
@@ -147,7 +147,7 @@ export default {
                 .utc(mcc.modification_date)
                 .local()
               conversation.comments_modified_string = conversation.comments_modified
-                .format('DD.MM.YYYY - HH:mm') + ' Uhr'
+                .format('DD.MM.YYYY - HH:mm') + ' ' + this.$t('o-clock')
             }
             resolve()
           })

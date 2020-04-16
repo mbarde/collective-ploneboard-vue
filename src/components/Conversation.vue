@@ -5,7 +5,8 @@
         <b-card :title="title" :sub-title="subTitle" class="main">
           <a v-if="editable" class="edit-conversation"
              v-b-modal="'modal-edit-conversation'">
-            <font-awesome-icon icon="edit"/> Bearbeiten
+            <font-awesome-icon icon="edit"/>
+            {{$t('edit')}}
           </a>
           <b-card-text
             v-html="text2html(text)"
@@ -18,7 +19,7 @@
           <template v-slot:modal-header>
             <h4>
               <font-awesome-icon icon="comments"/>
-              Unterhaltung bearbeiten
+              {{$t('edit-conversation')}}
             </h4>
           </template>
           <conversation-form
@@ -37,7 +38,7 @@
                Abschicken
             </b-btn>
             <b-btn squared variant="danger"
-                   @click="cancel()">Abbrechen</b-btn>
+                   @click="cancel()">{{$('cancel')}}</b-btn>
           </template>
         </b-modal>
         <template v-if="initialized">
@@ -53,11 +54,12 @@
                 variant="primary"
                 class="float-right mt-1 mb-3" squared size="sm"
                 v-b-modal="`modal-reply-${comment.comment_id}`">
-                Antworten</b-btn>
+                {{$t('reply')}}
+              </b-btn>
               <br style="clear:both"/>
               <b-modal
                 :id="`modal-reply-${comment.comment_id}`"
-                title="Antworten">
+                :title="$t('reply')">
                 <comment-form
                   v-if="url.length > 0"
                   :ref="`form-replyto-${comment.comment_id}`"
@@ -70,10 +72,12 @@
                          @click="submitCommentForm(comment.comment_id)"
                          :disabled="isSubmitting">
                      <b-spinner small v-if="isSubmitting"></b-spinner>
-                     Abschicken
+                     {{$t('submit')}}
                   </b-btn>
                   <b-btn squared variant="danger"
-                         @click="cancel()">Abbrechen</b-btn>
+                         @click="cancel()">
+                    {{$t('cancel')}}
+                  </b-btn>
                 </template>
               </b-modal>
             </template><!-- if allowReplies -->
@@ -81,7 +85,7 @@
           <hr/>
           <h4>
             <font-awesome-icon icon="comment"/>
-            Neuen Kommentar hinzufügen
+            {{$t('add-comment')}}
           </h4>
           <comment-form
             v-if="url.length > 0"
@@ -90,7 +94,7 @@
           </template>
           <b-col v-else cols="12" class="text-center">
             <br/><br/>
-            <b-spinner label="Loading..." type="grow"></b-spinner>
+            <b-spinner :label="$t('loading')" type="grow"></b-spinner>
           </b-col>
       </b-col>
     </b-row>
@@ -201,7 +205,7 @@ export default {
         this.editable = this.author == getUsername()
 
         let modifiedStr = moment(this.modified).format('DD.MM.YYYY - HH:mm')
-        this.subTitle = `von ${this.author} (${modifiedStr} Uhr)`
+        this.subTitle = `${this.$t('by')} ${this.author} (${modifiedStr} ${this.$t('o-clock')})`
       }).catch(() => {
         this.$emit('content-not-found')
       })

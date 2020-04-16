@@ -37,7 +37,7 @@ export default {
 
       if (this.$route.path == '/login') {
         this.navItems.push({
-          title: 'Login',
+          title: this.$t('login'),
           path: '/login'
         })
         return
@@ -45,7 +45,7 @@ export default {
 
       if (this.$route.path == '/profile') {
         this.navItems.push({
-          title: 'Meine Beiträge',
+          title: this.$t('my-content'),
           path: '/profile'
         })
         return
