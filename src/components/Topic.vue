@@ -23,7 +23,7 @@
                   <span class="d-none d-md-inline">
                     <i class="comments">
                       {{conversation.comment_count}}
-                        {{conversation.comment_count > 1 ? 'Kommentare' : 'Kommentar'}}
+                        {{conversation.comment_count > 1 ? $t('comments') : $t('comment')}}
                     </i>
                     <i class="newest-comment"
                        v-if="conversation.comments_modified_string">
