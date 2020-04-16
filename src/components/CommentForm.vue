@@ -59,6 +59,7 @@ export default {
       this.isSubmitting = true
       if (this.validate() === false) {
         this.isSubmitting = false
+        this.$emit('cancel-submit')
         return
       }
 

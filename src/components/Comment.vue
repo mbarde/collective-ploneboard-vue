@@ -30,7 +30,8 @@
       <comment-form
         :ref="`form-edit-${id}`"
         :comment-url="url"
-        v-on:comment-updated="onUpdated()">
+        v-on:comment-updated="onUpdated()"
+        v-on:cancel-submit="cancelSubmit">
       </comment-form>
       <template v-slot:modal-footer="{ cancel }">
         <b-btn squared variant="primary"
@@ -97,6 +98,9 @@ export default {
   methods: {
     nl2brLocal (str) {
       return nl2br(str)
+    },
+    cancelSubmit () {
+      this.isSubmitting = false
     },
     submitEditForm () {
       this.isSubmitting = true
