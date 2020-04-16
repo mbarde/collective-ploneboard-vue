@@ -12,7 +12,10 @@
             :href="getTopicUrl(topic)">
               <h4>{{topic.title}}</h4>
               {{getTopicDescription(topic)}}
-              <i>{{topic.conversation_count}} Unterhaltungen</i>
+              <i>
+                {{topic.conversation_count}}
+                {{topic.conversation_count > 1 ? 'Unterhaltungen' : 'Unterhaltung'}}
+              </i>
           </b-list-group-item>
         </b-list-group>
         <b-col v-else cols="12" class="text-center">
@@ -90,6 +93,7 @@ export default {
 
 <style scoped>
 .list-group-item.topic i {
+  color: black;
   float: right;
   font-size: 80%;
   font-style: italic;
