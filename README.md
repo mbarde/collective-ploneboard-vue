@@ -31,7 +31,10 @@ Tested with Plone 5.2.1 & plone.restapi 6.1.0
 	* `BASE_URL`: Base url of your Plone site
 	* `MESSAGE_BOARD_ID`: Id (short name) of the Message Board you created
 	* `STATIC_PAGES_PATH`: Id (short name) of the folder containing your static pages
-* Edit `vue.config.js`: `PAGE_TITLE`, `PRODUCTION_URL`, `LOCALE`
+* Edit `vue.config.js`: 
+	* `LANGUAGE_CODE`: `en` or `de`
+	* `PAGE_TITLE`: Title of the page
+	* `PRODUCTION_URL`: URL where the VueJS application (see `public/index.html`) is reachable
 * In `src/assets/` edit:
 	* `custom-vars.scss` to customize the used [Bootstrap theme](https://bootstrap-vue.js.org/docs/reference/theming/)
 	* `logo.png` and `favicon.ico`
